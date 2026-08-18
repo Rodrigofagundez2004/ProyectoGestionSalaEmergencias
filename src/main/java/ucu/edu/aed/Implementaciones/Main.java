@@ -1,7 +1,6 @@
 package ucu.edu.aed.Implementaciones;
 
 public class Main {
-    public static void Main(String [] args){
-        System.out.println("Holamundo");
+    public static void main(String [] args){
     }
 }
