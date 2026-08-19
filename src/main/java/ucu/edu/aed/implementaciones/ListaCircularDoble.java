@@ -3,7 +3,7 @@ package ucu.edu.aed.implementaciones;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
-import ucu.edu.aed.tdas.TDALista;
+import ucu.edu.aed.tda.TDALista;
 
 /**
  * Implementación de {@link TDALista} mediante una lista circular
