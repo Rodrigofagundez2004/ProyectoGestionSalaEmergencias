@@ -1,4 +1,4 @@
-package ucu.edu.aed.Implementaciones;
+package ucu.edu.aed.implementaciones;
 
 import java.io.IOException;
 
