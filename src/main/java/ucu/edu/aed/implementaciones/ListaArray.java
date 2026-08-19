@@ -142,4 +142,5 @@ public class ListaArray <T> implements TDALista<T> {
         }
         tamaño = 0;
     }
+
 }

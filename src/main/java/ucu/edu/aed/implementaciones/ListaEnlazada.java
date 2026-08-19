@@ -316,5 +316,21 @@ public class ListaEnlazada<T> implements TDALista<T> {
         this.primero = null;
     }
 
+    public String toString(){
+        Nodo<T> actual = this.primero;
+        String texto = "";
+
+        if (actual == null) {
+            return null;
+        } else {
+            while (actual != null) {
+                texto += actual.getDato() + " - ";
+                actual = actual.getSiguiente();
+            }
+            return texto;
+        }
+        
+    }
+
     
 }
