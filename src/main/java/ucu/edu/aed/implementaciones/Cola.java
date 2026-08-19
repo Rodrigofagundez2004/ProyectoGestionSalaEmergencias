@@ -1,6 +1,4 @@
-package ucu.edu.aed.Implementaciones;
-
-import java.io.IOException;
+package ucu.edu.aed.implementaciones;
 
 import ucu.edu.aed.tda.TDACola;
 

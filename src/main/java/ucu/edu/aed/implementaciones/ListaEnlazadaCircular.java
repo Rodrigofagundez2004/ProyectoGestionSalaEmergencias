@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import ucu.edu.aed.tda.TDALista;
 
-public class ListaEnlazada<T> implements TDALista<T> {
+public class ListaEnlazadaCircular<T> extends ListaEnlazada<T> implements TDALista<T> {
     protected Nodo<T> primero;
 
     @Override
@@ -15,11 +15,13 @@ public class ListaEnlazada<T> implements TDALista<T> {
 
         if (actual == null) {
             this.primero = nuevoNodo;
+            nuevoNodo.setSiguiente(nuevoNodo);
         } else {
-            while (actual.getSiguiente() != null) {
+            while (actual.getSiguiente() != this.primero) {
                 actual = actual.getSiguiente();
             }
             actual.setSiguiente(nuevoNodo);
+            nuevoNodo.setSiguiente(this.primero);
         }
     }
 
@@ -43,13 +45,26 @@ public class ListaEnlazada<T> implements TDALista<T> {
         if (index < 0 || index > this.tamaño()) {
             throw new IndexOutOfBoundsException();
         }
-        if (actual == null || index == 0) {
-            nuevoNodo.setSiguiente(actual);
+        if (actual == null) {
+            nuevoNodo.setSiguiente(nuevoNodo);
             this.primero = nuevoNodo;
-        } else {
+            return;
+        }
+        if (index == 0) {
+            Nodo<T> ultimo = actual;
+
+            while (ultimo.getSiguiente() != this.primero) {
+                ultimo = ultimo.getSiguiente();
+            }
+
+            ultimo.setSiguiente(nuevoNodo);
+            nuevoNodo.setSiguiente(this.primero);
+            this.primero = nuevoNodo;
+        }
+        else {
             int i = 1;
 
-            while (i < index && actual.getSiguiente() != null) {
+            while (i < index && actual.getSiguiente() != this.primero) {
                 actual = actual.getSiguiente();
                 i++;
             }
@@ -58,29 +73,6 @@ public class ListaEnlazada<T> implements TDALista<T> {
             actual.setSiguiente(nuevoNodo);
             nuevoNodo.setSiguiente(nodoProximoAlSiguiente);
         }
-    }
-
-    /**
-     * Obtiene el elemento almacenado en la posición indicada.
-     *
-     * @param index la posición del elemento a recuperar
-     * @return el elemento ubicado en la posición indicada
-     * @throws IndexOutOfBoundsException si el índice está fuera de rango
-     */
-    @Override
-    public T obtener(int index) {
-        Nodo<T> actual = this.primero;
-        int i = 0;
-        
-        if (index < 0 || index > this.tamaño()) {
-            throw new IndexOutOfBoundsException();
-        }
-        while (i < index) {
-            actual = actual.getSiguiente();
-            i++;
-        }
-
-        return actual.getDato();
     }
 
     /**
@@ -108,9 +100,22 @@ public class ListaEnlazada<T> implements TDALista<T> {
             return null;
         }
         if (index == 0) {
+            if (actual.getSiguiente() == this.primero) {
+                this.primero = null;
+                actual.setSiguiente(null);
+                return actual.getDato();
+            }
+
+            Nodo<T> ultimo = actual;
+
+            while (ultimo.getSiguiente() != this.primero) {
+                ultimo = ultimo.getSiguiente();
+            }
+
             T primerDato = actual.getDato();
             this.primero = actual.getSiguiente();
             actual.setSiguiente(null);
+            ultimo.setSiguiente(this.primero);
 
             return primerDato;
         }
@@ -123,47 +128,6 @@ public class ListaEnlazada<T> implements TDALista<T> {
         nodoEliminado.setSiguiente(null);
 
         return nodoEliminado.getDato();
-    }
-
-    /**
-     * Remueve la primera ocurrencia del elemento indicado en la lista.
-     *
-     * <p>
-     * La comparación del elemento queda sujeta al criterio definido
-     * por la implementación, normalmente mediante {@code equals}.
-     * </p>
-     *
-     * @param elemento el elemento a remover
-     * @return {@code true} si el elemento fue encontrado y removido;
-     *         {@code false} en caso contrario
-     */
-    @Override
-    public boolean remover(T elemento) {
-        Nodo<T> actual = this.primero;
-        Nodo<T> eliminado;
-
-        if (actual == null) {
-            return false;
-        }
-        if (actual.getDato().equals(elemento)) {
-            this.primero = actual.getSiguiente();
-
-            return true;
-        }
-        while (actual.getSiguiente() != null) {
-            T datoActual = actual.getSiguiente().getDato();
-
-            if (datoActual.equals(elemento)) {
-                eliminado = actual.getSiguiente();
-                actual.setSiguiente(eliminado.getSiguiente());
-                eliminado.setSiguiente(null);
-
-                return true;
-            }
-            actual = actual.getSiguiente();
-        }
-
-        return false;
     }
 
     /**
@@ -185,12 +149,12 @@ public class ListaEnlazada<T> implements TDALista<T> {
         if (actual == null) {
             return false;
         }
-        while (actual != null) {
+        do { 
             if (actual.getDato().equals(elemento)) {
                 return true;
             }
             actual = actual.getSiguiente();
-        }
+        } while (actual != this.primero);
 
         return false;
     }
@@ -212,13 +176,13 @@ public class ListaEnlazada<T> implements TDALista<T> {
         Nodo<T> actual = this.primero;
         int i = 0;
 
-        while (actual != null) {
+        do { 
             if (actual.getDato().equals(elemento)) {
                 return i;
             }
             actual = actual.getSiguiente();
             i++;
-        }
+        } while (actual != this.primero);
 
         return -1;
     }
@@ -234,12 +198,16 @@ public class ListaEnlazada<T> implements TDALista<T> {
     public T buscar(Predicate<T> criterio) {
         Nodo<T> actual = this.primero;
 
-        while (actual != null) {
+        if (actual == null) {
+            return null;
+        }
+
+        do { 
             if (criterio.test(actual.getDato())) {
                 return actual.getDato();
             }
             actual = actual.getSiguiente();
-        }
+        } while (actual != this.primero);
 
         return null;
     }
@@ -262,7 +230,7 @@ public class ListaEnlazada<T> implements TDALista<T> {
         ListaEnlazada<T> nuevaLista = new ListaEnlazada<>();
         int j;
 
-        while (actual != null) {
+        do { 
             j = 0;
 
             while (j < nuevaLista.tamaño() && comparator.compare(actual.getDato(), nuevaLista.obtener(j)) > 0) {
@@ -270,7 +238,7 @@ public class ListaEnlazada<T> implements TDALista<T> {
             }
             nuevaLista.agregar(j, actual.getDato());
             actual = actual.getSiguiente();
-        }
+        } while (actual != this.primero);
 
         return nuevaLista;
     }
@@ -285,36 +253,11 @@ public class ListaEnlazada<T> implements TDALista<T> {
         int i = 0;
         Nodo<T> actual = this.primero;
 
-        while (actual != null) {
+        do { 
             i++;
             actual = actual.getSiguiente();
-        }
+        } while (actual != this.primero);
 
         return i;
     }
-
-    /**
-     * Determina si la lista no contiene elementos.
-     *
-     * @return {@code true} si la lista está vacía;
-     *         {@code false} en caso contrario
-     */
-    @Override
-    public boolean esVacio() {
-        return this.primero == null;
-    }
-
-    /**
-     * Elimina todos los elementos de la lista.
-     *
-     * <p>
-     * Luego de invocar este método, la lista queda vacía.
-     * </p>
-     */
-    @Override
-    public void vaciar() {
-        this.primero = null;
-    }
-
-    
 }
