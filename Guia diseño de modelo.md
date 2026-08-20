@@ -31,31 +31,17 @@
   - hashCode
   - equals
 
+    
 
+### Causa es una clase ENUM
 
-### PersonalDeSalud
+Cada Causa tiene asignado un procedimiento
 
-- Atributos:
-  - Nombre (String)
-  - Cedula (int)
-  - Rol (Rol)
-
-- Métodos:
-  - Constructor
-  - Getters
-  - hashCode
-  - equals
-
-
-### Rol es una clase ENUM
-
-Cada rol tiene asignado un procedimiento
-
-- CARDIOLOGO(Procedimiento.ELECTROCARDIOGRAMA)
-- TRAUMATOLOGO(Procedimiento.TOMOGRAFIA)
-- NEUROLOGO(Procedimiento.RESONANCIA)
-- RADIOLOGO(Procedimiento.RADIOGRAFIA)
-- ONCOLOGO(Procedimiento.BIOPSIA)
+- TAQUICARDIA(Procedimiento.ELECTROCARDIOGRAMA)
+- LESION_RODILLA(Procedimiento.TOMOGRAFIA)
+- TRAUMATISMO_CRANEAL(Procedimiento.RESONANCIA)
+- FRACTURA(Procedimiento.RADIOGRAFIA)
+- APENDICITIS(Procedimiento.CIRUGIA)
 
 y esta clase tiene un metodo getProcedimiento para facilitar asi la asignación de un procedimiento a la hora de atender un paciente en base al personal de salud que lo atiende.
 
@@ -64,7 +50,7 @@ y esta clase tiene un metodo getProcedimiento para facilitar asi la asignación 
 - ELECTROCARDIOGRAMA
 - RADIOGRAFIA
 - RESONANCIA
-- BIOPSIA
+- CIRUGIA
 - TOMOGRAFIA
 
 
@@ -176,17 +162,6 @@ Los tiempos concretos necesarios para cada aumento de prioridad deberán definir
 La finalidad es evitar que un paciente permanezca indefinidamente esperando solamente porque inicialmente tenía una prioridad baja.
 
 
-## RELACIÓN ENTRE ROL Y PROCEDIMIENTO
 
-Cada rol del personal de salud determina el procedimiento que se realiza al paciente durante la atención.
 
-Ejemplo conceptual:
-
-- CARDIOLOGO → ELECTROCARDIOGRAMA
-- TRAUMATOLOGO → TOMOGRAFIA
-- NEUROLOGO → RESONANCIA
-- RADIOLOGO → RADIOGRAFIA 
-- ONCOLOGO → BIOPSIA 
-
-Esta relación permite que, al atender un paciente, el sistema determine automáticamente qué procedimiento agregar a su historial en función del rol del personal de salud.
 
