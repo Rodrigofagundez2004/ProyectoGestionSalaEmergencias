@@ -26,5 +26,8 @@ public class SalaDeEspera {
          */
         return false;
     }
+    public ColaConPrioridad<Paciente> getPorAtender() {
+        return porAtender;
+    }
 
 }

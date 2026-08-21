@@ -14,11 +14,23 @@ public class SystemFacade {
     }
 
     boolean registrarPaciente(Paciente pacienteARegistrar){
-         /*
-         Agrega el paciente a la lista Pacientes y a la cola PorAtender.
-         Devuelve true si se pudo registrar correctamente y false si no se pudo.
-          */
-        return false;
+        if (pacienteARegistrar == null)
+        {
+            return false;
+        }
+        //validar que no exista ya un paciente con la misma cedula
+        for (int i = 0; i < pacientes.tamaño(); i++) {
+            Paciente existente = pacientes.obtener(i);
+            if (existente.getCedula() == pacienteARegistrar.getCedula()) {
+            return false; // Ya existe
+            }
+        }
+        // agregar a la lista general
+        pacientes.agregar(pacienteARegistrar);
+        //4 agregar a la cola de espera con su prioridad inical
+        pacientesEnEspera.getPorAtender().agregar(pacienteARegistrar);
+        return true;
+
     }
 
     boolean atenderPaciente(){
@@ -41,13 +53,51 @@ public class SystemFacade {
     }
 
     String consultarSobrePaciente(Paciente paciente){
-        /*
-         Busca al paciente en la lista general Pacientes. Si lo encuentra,
-         devuelve un String con todos sus datos, incluyendo sus procedimientos
-         realizados. Si no lo encuentra, devuelve un mensaje indicando que
-         el paciente no fue encontrado.
-         */
-        return null;
+
+        if (paciente == null)
+        {
+            return "paciente no encontrado (null)";
+        }
+
+        for (int i = 0; i < pacientes.tamaño(); i++)
+        {
+            Paciente encontrado = pacientes.obtener(i);
+            if (encontrado.getCedula() == paciente.getCedula())
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.append("===DATOS DEL PACIENTE===\n");
+                sb.append("Cédula: ").append(encontrado.getCedula()).append("\n");
+                sb.append("Nombre;").append(encontrado.getNombre()).append("\n");
+                sb.append("Apellido:").append(encontrado.getApellido()).append("\n");
+                sb.append("Edad:").append(encontrado.getEdad()).append("\n");
+                sb.append("Fecha de ingreso:").append(encontrado.getFechaIngreso()).append("\n");
+                sb.append("Motivo").append(encontrado.getMotivo()).append("\n");
+                sb.append("Prioridad:").append(encontrado.getPrioridad()).append("\n");
+                sb.append("Tiempo en espera :").append(encontrado.getTiempoEsperando()).append("\n");
+                sb.append("Procedimientos realizados");
+                ListaDoblementeEnlazada<Procedimiento> procedimientos = encontrado.getProcedimientosRealizados();
+
+
+                if (procedimientos == null || procedimientos.esVacio()) 
+                {
+                    sb.append("Ninguno");
+
+                } else {
+                    for (int j = 0; j < procedimientos.tamaño(); j++)
+                    {
+                        sb.append(procedimientos.obtener(j));
+                        if (j < procedimientos.tamaño() - 1) {
+                            sb.append(", ");
+                        }
+                    }
+                }
+                sb.append("\n");
+                sb.append("=========================\n");
+                return sb.toString();
+
+            }
+        }
+        return "paciente no encontrado";
     }
 
     boolean modificarUrgencia(Paciente paciente){

@@ -1,8 +1,8 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
-
 import java.util.Date;
+
+import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
 
 public class Paciente {
 
@@ -60,7 +60,10 @@ public class Paciente {
     public int getTiempoEsperando() {
         return tiempoEsperando;
     }
-
+    public ListaDoblementeEnlazada<Procedimiento> getProcedimientosRealizados()
+    {
+        return procedimientosRealizados;
+    }
     public void setTiempoEsperando(int tiempoEsperando) {
         this.tiempoEsperando = tiempoEsperando;
     }
