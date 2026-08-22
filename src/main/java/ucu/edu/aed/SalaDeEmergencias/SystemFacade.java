@@ -28,7 +28,7 @@ public class SystemFacade {
         // agregar a la lista general
         pacientes.agregar(pacienteARegistrar);
         //4 agregar a la cola de espera con su prioridad inical
-        pacientesEnEspera.getPorAtender().agregar(pacienteARegistrar);
+        pacientesEnEspera.ponerPacienteEnEspera(pacienteARegistrar);
         return true;
 
     }

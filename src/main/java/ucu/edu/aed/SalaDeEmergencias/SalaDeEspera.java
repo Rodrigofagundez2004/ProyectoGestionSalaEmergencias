@@ -11,7 +11,6 @@ public class SalaDeEspera {
 
     private ColaConPrioridad<Paciente> porAtender;
     
-    
     public SalaDeEspera(){
         porAtender = new ColaConPrioridad<Paciente>(new ComparadorPacientes());
     }
@@ -35,11 +34,14 @@ public class SalaDeEspera {
             
             porAtender = reordenar();
         }
-        
     }
 
     public ColaConPrioridad<Paciente> getPorAtender() {
         return porAtender;
+    }
+
+    public boolean ponerPacienteEnEspera (Paciente paciente) {
+        return porAtender.poneEnCola(paciente);
     }
     
     private boolean actualizarUrgencia(Paciente paciente){
