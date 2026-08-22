@@ -15,6 +15,13 @@ public class SalaDeEspera {
         Incrementa el tiempo de espera de los pacientes que permanecen 
         en la sala de espera.
          */
+        if (porAtender == null) {
+            return;
+        }
+        for (int i = 0; i < porAtender.tamaño(); i++) {
+            Paciente paciente = porAtender.obtener(i);
+            paciente.setTiempoEsperando(paciente.getTiempoEsperando()+1);
+        }
     }
     
     public boolean actualizarUrgencia(){
