@@ -1,6 +1,7 @@
-package ucu.edu.aed.SalaDeEmergencias;
 
+package ucu.edu.aed.SalaDeEmergencias;
 import ucu.edu.aed.implementaciones.ColaConPrioridad;
+
 import java.util.Comparator;
 
 public class SalaDeEspera {
