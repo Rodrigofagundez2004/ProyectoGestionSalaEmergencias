@@ -1,5 +1,6 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
+import ucu.edu.aed.implementaciones.ColaConPrioridad;
 import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
 
 public class SystemFacade {
@@ -22,12 +23,12 @@ public class SystemFacade {
         for (int i = 0; i < pacientes.tamaño(); i++) {
             Paciente existente = pacientes.obtener(i);
             if (existente.getCedula() == pacienteARegistrar.getCedula()) {
-            return false; // Ya existe
+                return false; // Ya existe
             }
         }
         // agregar a la lista general
         pacientes.agregar(pacienteARegistrar);
-        //4 agregar a la cola de espera con su prioridad inical
+        // Agregar a la cola de espera con su prioridad inicial.
         pacientesEnEspera.ponerPacienteEnEspera(pacienteARegistrar);
         return true;
 
@@ -78,7 +79,7 @@ public class SystemFacade {
                 ListaDoblementeEnlazada<Procedimiento> procedimientos = encontrado.getProcedimientosRealizados();
 
 
-                if (procedimientos == null || procedimientos.esVacio()) 
+                if (procedimientos == null || procedimientos.esVacio())
                 {
                     sb.append("Ninguno");
 
@@ -100,13 +101,53 @@ public class SystemFacade {
         return "paciente no encontrado";
     }
 
-    boolean modificarUrgencia(Paciente paciente){
-        /*
-        Busca al paciente en la cola PorAtender y modifica su nivel de prioridad.
-        La modificación debe verse reflejada en su posición dentro de la cola.
-        Devuelve true si se pudo modificar y false si no se pudo.
-         */
-        return false;
+    boolean modificarUrgencia(Paciente paciente, NivelPrioridad nuevoNivel){
+        if (paciente == null || nuevoNivel == null)
+        {
+            return false;
+        }
+        ColaConPrioridad<Paciente> cola = pacientesEnEspera.getPorAtender();
+        if (cola == null || cola.esVacio())
+        {
+            return false;
+        }
+        //buscar pacientes en la cola
+        // como no podemos buscar directamente  necesitamos recorrerla
+        // y usar una cola temporal para mantener los elemen tos
+        ColaConPrioridad<Paciente> temp = new ColaConPrioridad<>(new ComparadorPacientes());
+        Paciente encontrado  = null;
+        while (!cola.esVacio())
+        {
+            Paciente actual = cola.quitaDeCola();
+            if (paciente.getCedula() == actual.getCedula())
+            {
+                encontrado = actual;
+            }
+            else {
+                temp.poneEnCola(actual);
+            }
+
+        }
+        //si no se encontro restaurar la cola original  y retornar false
+        if (encontrado == null)
+        {
+            while (!temp.esVacio())
+            {
+                cola.poneEnCola(temp.quitaDeCola());
+            }
+            return false;
+        }
+        //modificamos la prioridad
+        encontrado.setPrioridad(nuevoNivel);
+        // volve ra insertar el paciente modificado
+        cola.poneEnCola(encontrado);
+        while (!temp.esVacio())
+        {
+            cola.poneEnCola(temp.quitaDeCola());
+        }
+        return true;
+
+
     }
 
     Paciente obtenerProximoPaciente(){
