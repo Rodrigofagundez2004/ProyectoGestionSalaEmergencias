@@ -42,7 +42,15 @@ public class SystemFacade {
         Finalmente agrega el paciente a la lista Atendidos.
         Devuelve true si se pudo realizar la atención y false si no se pudo.
          */
-        return false;
+	if (pacientesEnEspera.getPorAtender().esVacio()){
+		return false;
+	}
+	Paciente paciente = pacientesEnEspera.getPorAtender().quitaDeCola();
+	Procedimiento procedimiento = paciente.getCausa().getProcedimiento();
+	paciente.getProcedimientosRealizados().agregar(procedimiento);
+	atendidos.agregar(paciente);
+	
+        return true;
     }
 
     boolean estaAtendido(Paciente paciente){
@@ -50,6 +58,9 @@ public class SystemFacade {
         Determina si el paciente está en la lista Atendidos.
         Devuelve true si está y false si no lo está.
          */
+	if (atendidos.contiene(paciente)){
+		return true;
+	}
         return false;
     }
 
