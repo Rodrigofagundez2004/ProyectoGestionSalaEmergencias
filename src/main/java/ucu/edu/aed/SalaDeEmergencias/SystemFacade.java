@@ -70,8 +70,8 @@ public class SystemFacade {
                 sb.append("Nombre;").append(encontrado.getNombre()).append("\n");
                 sb.append("Apellido:").append(encontrado.getApellido()).append("\n");
                 sb.append("Edad:").append(encontrado.getEdad()).append("\n");
-                sb.append("Fecha de ingreso:").append(encontrado.getFechaIngreso()).append("\n");
-                sb.append("Motivo").append(encontrado.getMotivo()).append("\n");
+                sb.append("Fecha de ingreso:").append(encontrado.getFechaNacimiento()).append("\n");
+                sb.append("Motivo").append(encontrado.getCausa()).append("\n");
                 sb.append("Prioridad:").append(encontrado.getPrioridad()).append("\n");
                 sb.append("Tiempo en espera :").append(encontrado.getTiempoEsperando()).append("\n");
                 sb.append("Procedimientos realizados");
