@@ -8,10 +8,10 @@ public class SystemFacade {
     private SalaDeEspera pacientesEnEspera;
     private ListaDoblementeEnlazada<Paciente> atendidos;
 
-    public SystemFacade(){
+    public SystemFacade() {
         pacientes = new ListaDoblementeEnlazada<>();
         pacientesEnEspera = new SalaDeEspera();
-        atendidos = new ListaDoblementeEnlazada<>();
+        atendidos = new ListaDoblementeEnlazada<>();        
     }
 
     boolean registrarPaciente(Paciente pacienteARegistrar){
@@ -27,7 +27,6 @@ public class SystemFacade {
             }
         }
         // agregar a la lista general
-        pacienteARegistrar.setPrioridad(NivelPrioridad.BAJA);
         pacientes.agregar(pacienteARegistrar);
         // Agregar a la cola de espera con su prioridad inicial.
         pacientesEnEspera.ponerPacienteEnEspera(pacienteARegistrar);
@@ -50,6 +49,7 @@ public class SystemFacade {
 	Procedimiento procedimiento = paciente.getCausa().getProcedimiento();
 	paciente.agregarProcedimiento(procedimiento);
 	atendidos.agregar(paciente);
+    pacientesEnEspera.incrementarEspera();
 	
         return true;
     }
@@ -79,7 +79,7 @@ public class SystemFacade {
                 sb.append("Nombre: ").append(encontrado.getNombre()).append("\n");
                 sb.append("Apellido: ").append(encontrado.getApellido()).append("\n");
                 sb.append("Edad: ").append(encontrado.getEdad()).append("\n");
-                sb.append("Fecha de ingreso: ").append(encontrado.getFechaNacimiento()).append("\n");
+                sb.append("Fecha de ingreso: ").append(encontrado.getFechaIngreso()).append("\n");
                 sb.append("Motivo ").append(encontrado.getCausa()).append("\n");
                 sb.append("Prioridad: ").append(encontrado.getPrioridad()).append("\n");
                 sb.append("Tiempo en espera: ").append(encontrado.getTiempoEsperando()).append("\n");

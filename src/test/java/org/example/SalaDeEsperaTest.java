@@ -20,11 +20,10 @@ public class SalaDeEsperaTest extends TestCase {
     private static final int LIMITE_ESPERA_URGENCIA_URGENTE = 1;
 
     public void testIncrementarEsperaIncrementaTiempo() throws ParseException {
-        Date fechaNacimiento = new SimpleDateFormat("dd/MM/yyyy").parse("12/05/2004");
+        Date fechaIngreso = new SimpleDateFormat("dd/MM/yyyy").parse("10/01/2024");
         SalaDeEspera porAtender = new SalaDeEspera();
-        Paciente paciente = new Paciente(54825523, "Rodrigo", "Garcia", (byte) 22, fechaNacimiento, Causa.TAQUICARDIA);
+        Paciente paciente = new Paciente(54825523, "Rodrigo", "Garcia", (byte) 22, fechaIngreso, Causa.TAQUICARDIA, NivelPrioridad.MEDIA);
 
-        paciente.setPrioridad(NivelPrioridad.BAJA);
         paciente.setTiempoEsperando(1);
 
         porAtender.ponerPacienteEnEspera(paciente);
@@ -35,10 +34,9 @@ public class SalaDeEsperaTest extends TestCase {
 
     void incrementarEsperaActualizaPrioridadDeBajaAMedia() throws ParseException {
         SalaDeEspera porAtender = new SalaDeEspera();
-        Date fechaNacimiento = new SimpleDateFormat("dd/MM/yyyy").parse("12/05/2004");
-        Paciente paciente = new Paciente(54825523, "Rodrigo", "Garcia", (byte) 22, fechaNacimiento, Causa.LESION_RODILLA);
+        Date fechaIngreso = new SimpleDateFormat("dd/MM/yyyy").parse("10/01/2025");
+        Paciente paciente = new Paciente(54825523, "Rodrigo", "Garcia", (byte) 22, fechaIngreso, Causa.LESION_RODILLA, NivelPrioridad.BAJA);
 
-        paciente.setPrioridad(NivelPrioridad.BAJA);
         paciente.setTiempoEsperando(LIMITE_ESPERA_URGENCIA_BAJA - 1);
 
         porAtender.ponerPacienteEnEspera(paciente);
@@ -51,22 +49,15 @@ public class SalaDeEsperaTest extends TestCase {
 
     void incrementarEsperaReordenaColaCuandoCambiaPrioridad() throws ParseException {
         SalaDeEspera porAtender = new SalaDeEspera();
-        Date fechaNacimiento = new SimpleDateFormat("dd/MM/yyyy").parse("12/05/2004");
-        Paciente pacienteBajaPrioridad = new Paciente(54825523, "Rodrigo", "Garcia", (byte) 22, fechaNacimiento, Causa.LESION_RODILLA);
-
-        pacienteBajaPrioridad.setPrioridad(NivelPrioridad.BAJA);
+        Date fechaIngreso = new SimpleDateFormat("dd/MM/yyyy").parse("10/01/2026");
+        Paciente pacienteBajaPrioridad = new Paciente(54825523, "Rodrigo", "Garcia", (byte) 22, fechaIngreso, Causa.LESION_RODILLA, NivelPrioridad.BAJA);
         pacienteBajaPrioridad.setTiempoEsperando(LIMITE_ESPERA_URGENCIA_BAJA - 1);
 
-        fechaNacimiento = new SimpleDateFormat("dd/MM/yyyy").parse("01/02/2020");
-        Paciente pacienteMediaPrioridad = new Paciente(12345678, "Franco", "Martinez", (byte) 6, fechaNacimiento, Causa.TRAUMATISMO_CRANEAL);
-
-        pacienteMediaPrioridad.setPrioridad(NivelPrioridad.MEDIA);
+        Paciente pacienteMediaPrioridad = new Paciente(12345678, "Franco", "Martinez", (byte) 6, fechaIngreso, Causa.TRAUMATISMO_CRANEAL, NivelPrioridad.MEDIA);
         pacienteMediaPrioridad.setTiempoEsperando(1);
 
         porAtender.ponerPacienteEnEspera(pacienteBajaPrioridad);
-
         porAtender.ponerPacienteEnEspera(pacienteMediaPrioridad);
-
         porAtender.incrementarEspera();
 
         assertEquals(NivelPrioridad.MEDIA, porAtender.getPorAtender().frente().getPrioridad());

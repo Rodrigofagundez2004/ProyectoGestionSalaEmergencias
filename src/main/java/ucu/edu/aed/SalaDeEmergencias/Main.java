@@ -6,9 +6,20 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 
         SystemFacade facade = new SystemFacade();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date fechaIngreso = formato.parse("23/08/2026");
+        Paciente paciente1 = new Paciente(54278247, "Francisco", "Lopez", (byte) 16, fechaIngreso, Causa.TAQUICARDIA, NivelPrioridad.MEDIA);
+        Paciente paciente2 = new Paciente(34562479, "Mauro", "Martinez", (byte) 47, fechaIngreso, Causa.LESION_RODILLA, NivelPrioridad.BAJA);
+        Paciente paciente3 = new Paciente(54825523, "Rodrigo", "Perez", (byte) 22, fechaIngreso, Causa.TRAUMATISMO_CRANEAL, NivelPrioridad.URGENTE);
+        Paciente paciente4 = new Paciente(25671821, "Natalia", "Rodriguez", (byte) 50, fechaIngreso, Causa.FRACTURA_PERONE, NivelPrioridad.ALTA);
+        facade.registrarPaciente(paciente1);
+        facade.registrarPaciente(paciente2);
+        facade.registrarPaciente(paciente3);
+        facade.registrarPaciente(paciente4);
 
         Scanner sc = new Scanner(System.in);
         boolean salir = false;
@@ -41,14 +52,12 @@ public class Main {
                     System.out.println("Ingrese la edad del paciente:");
                     byte edad = sc.nextByte();
 
-                    System.out.println("Ingrese la fecha de nacimiento del paciente (dd/mm/aaaa):");
-                    String fechaNacimientoString = sc.next();
-
-                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                    System.out.println("Ingrese la fecha de ingreso del paciente (dd/mm/aaaa):");
+                    String fechaIngresoString = sc.next();
 
 
                     try {
-                        Date fechaNacimiento = formato.parse(fechaNacimientoString);
+                        fechaIngreso = formato.parse(fechaIngresoString);
 
 
                         System.out.println("Ingrese la causa del paciente:");
@@ -59,17 +68,26 @@ public class Main {
                         }
 
                         int opcionCausa = sc.nextInt();
-
                         Causa causa = causas[opcionCausa - 1];
 
+                        System.out.println("Ingrese la prioridad del paciente:");
+                        NivelPrioridad[] prioridades = NivelPrioridad.values();
+
+                        for (int i = 0; i < causas.length; i++) {
+                            System.out.println((i + 1) + ": " + causas[i]);
+                        }
+
+                        int opcionPrioridad = sc.nextInt();
+                        NivelPrioridad prioridad = prioridades[opcionPrioridad - 1];
 
                         Paciente pacienteARegistrar = new Paciente(
                                 cedula,
                                 nombre,
                                 apellido,
                                 edad,
-                                fechaNacimiento,
-                                causa
+                                fechaIngreso,
+                                causa,
+                                prioridad
                         );
 
                         if (facade.registrarPaciente(pacienteARegistrar)) {
