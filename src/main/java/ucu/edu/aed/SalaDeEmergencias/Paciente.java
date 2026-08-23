@@ -10,19 +10,20 @@ public class Paciente {
     private String nombre;
     private String apellido;
     private byte edad;
-    private Date fechaNacimiento;
+    private Date fechaIngreso;
     private final Causa causa;
     private NivelPrioridad prioridad;
     private int tiempoEsperando;
     private ListaDoblementeEnlazada<Procedimiento> procedimientosRealizados;
 
-    public Paciente(int cedula, String nombre, String apellido, byte edad, Date fechaNacimiento, Causa causa) {
+    public Paciente(int cedula, String nombre, String apellido, byte edad, Date fechaIngreso, Causa causa, NivelPrioridad prioridad) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
-        this.fechaNacimiento = fechaNacimiento;
+        this.fechaIngreso = fechaIngreso;
         this.causa = causa;
+        this.prioridad = prioridad;
         this.procedimientosRealizados = new ListaDoblementeEnlazada<>();
     }
 
@@ -42,8 +43,8 @@ public class Paciente {
         return edad;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
+    public Date getFechaIngreso() {
+        return fechaIngreso;
     }
 
     public Causa getCausa() {
@@ -78,7 +79,7 @@ public class Paciente {
     }
 
     public String toString() {
-        return "Paciente: " + nombre + " " + apellido + " (" + cedula + ") \n Fecha de nacimiento: " + fechaNacimiento +
+        return "Paciente: " + nombre + " " + apellido + " (" + cedula + ") \n Fecha de ingreso: " + fechaIngreso +
                 "\n Fecha de ingreso: " + new Date() + "\n Motivo de la consulta: " + causa + "\n Nivel de prioridad: " + prioridad +
                 "\n Tiempo de espera: " + tiempoEsperando + "\n Procedimientos realizados: ";
     }
