@@ -23,6 +23,7 @@ public class Paciente {
         this.edad = edad;
         this.fechaNacimiento = fechaNacimiento;
         this.causa = causa;
+        this.procedimientosRealizados = new ListaDoblementeEnlazada<>();
     }
 
     public int getCedula() {
@@ -49,6 +50,14 @@ public class Paciente {
         return causa;
     }
 
+    public ListaDoblementeEnlazada<Procedimiento> getProcedimientos() {
+        return procedimientosRealizados;
+    }
+
+    public void agregarProcedimiento(Procedimiento procedimiento) {
+        this.procedimientosRealizados.agregar(procedimiento);
+    }
+
     public NivelPrioridad getPrioridad() {
         return prioridad;
     }
@@ -69,9 +78,9 @@ public class Paciente {
     }
 
     public String toString() {
-        return "Paciente: " + nombre + " " + apellido + " (" + cedula + ") fecha de nacimiento: " + fechaNacimiento +
-                "fecha de ingreso: " + new Date() + "motivo de la consulta: " + causa + "nivel de prioridad: " + prioridad +
-                "tiempo de espera: " + tiempoEsperando + "procedimientos realizados:";
+        return "Paciente: " + nombre + " " + apellido + " (" + cedula + ") \n Fecha de nacimiento: " + fechaNacimiento +
+                "\n Fecha de ingreso: " + new Date() + "\n Motivo de la consulta: " + causa + "\n Nivel de prioridad: " + prioridad +
+                "\n Tiempo de espera: " + tiempoEsperando + "\n Procedimientos realizados: ";
     }
 
     @Override
