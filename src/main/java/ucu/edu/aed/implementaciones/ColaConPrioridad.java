@@ -16,12 +16,6 @@ import ucu.edu.aed.tda.TDACola;
  * ({@code obtener(0)}) sea siempre el de mayor prioridad. Entre elementos
  * de igual prioridad se respeta el orden de llegada (FIFO).</p>
  *
- * <p>Como la inserción ordenada requiere recorrer la lista hasta encontrar
- * la posición correcta, {@code poneEnCola} cuesta O(n) en el peor caso.
- * Esto la convierte en una buena candidata para el Desafío 3: reemplazando
- * la representación por un heap binario, la misma operación podría
- * resolverse en O(log n).</p>
- *
  * @param <T> el tipo de los elementos almacenados en la cola
  */
 public class ColaConPrioridad<T> extends ListaDoblementeEnlazada<T> implements TDACola<T> {
