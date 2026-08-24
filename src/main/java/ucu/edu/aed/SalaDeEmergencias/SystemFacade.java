@@ -14,7 +14,7 @@ public class SystemFacade {
         atendidos = new ListaDoblementeEnlazada<>();
     }
 
-    boolean registrarPaciente(Paciente pacienteARegistrar){
+    public  boolean registrarPaciente(Paciente pacienteARegistrar){
         if (pacienteARegistrar == null)
         {
             return false;
@@ -34,7 +34,7 @@ public class SystemFacade {
 
     }
 
-    boolean atenderPaciente(){
+     public boolean atenderPaciente(){
         /*
         Toma de PorAtender al paciente que corresponda según el criterio
         de prioridad. Determina el procedimiento que corresponde según la causa.
@@ -53,7 +53,7 @@ public class SystemFacade {
         return true;
     }
 
-    boolean estaAtendido(Paciente paciente){
+    public boolean estaAtendido(Paciente paciente){
         /*
         Determina si el paciente está en la lista Atendidos.
         Devuelve true si está y false si no lo está.
@@ -64,29 +64,25 @@ public class SystemFacade {
         return false;
     }
 
-    String consultarSobrePaciente(Paciente paciente){
+   public String consultarSobrePaciente(int cedulaPaciente){
 
-        if (paciente == null)
-        {
-            return "paciente no encontrado (null)";
-        }
 
         for (int i = 0; i < pacientes.tamaño(); i++)
         {
             Paciente encontrado = pacientes.obtener(i);
-            if (encontrado.getCedula() == paciente.getCedula())
+            if (encontrado.getCedula() == cedulaPaciente)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.append("===DATOS DEL PACIENTE===\n");
                 sb.append("Cédula: ").append(encontrado.getCedula()).append("\n");
-                sb.append("Nombre;").append(encontrado.getNombre()).append("\n");
-                sb.append("Apellido:").append(encontrado.getApellido()).append("\n");
-                sb.append("Edad:").append(encontrado.getEdad()).append("\n");
-                sb.append("Fecha de ingreso:").append(encontrado.getFechaNacimiento()).append("\n");
-                sb.append("Motivo").append(encontrado.getCausa()).append("\n");
-                sb.append("Prioridad:").append(encontrado.getPrioridad()).append("\n");
-                sb.append("Tiempo en espera :").append(encontrado.getTiempoEsperando()).append("\n");
-                sb.append("Procedimientos realizados");
+                sb.append("Nombre: ").append(encontrado.getNombre()).append("\n");
+                sb.append("Apellido: ").append(encontrado.getApellido()).append("\n");
+                sb.append("Edad: ").append(encontrado.getEdad()).append("\n");
+                sb.append("Fecha de ingreso: ").append(encontrado.getFechaIngreso()).append("\n");
+                sb.append("Motivo ").append(encontrado.getCausa()).append("\n");
+                sb.append("Prioridad: ").append(encontrado.getPrioridad()).append("\n");
+                sb.append("Tiempo en espera: ").append(encontrado.getTiempoEsperando()).append("\n");
+                sb.append("Procedimientos realizados: ");
                 ListaDoblementeEnlazada<Procedimiento> procedimientos = encontrado.getProcedimientosRealizados();
 
 
@@ -109,10 +105,10 @@ public class SystemFacade {
 
             }
         }
-        return "paciente no encontrado";
+        return "Paciente no encontrado";
     }
 
-    boolean modificarUrgencia(Paciente paciente, NivelPrioridad nuevoNivel){
+    public boolean modificarUrgencia(Paciente paciente, NivelPrioridad nuevoNivel){
         if (paciente == null || nuevoNivel == null)
         {
             return false;
@@ -151,7 +147,7 @@ public class SystemFacade {
         //modificamos la prioridad
         encontrado.setPrioridad(nuevoNivel);
         // volve ra insertar el paciente modificado 
-        cola.poneEnCola(encontrado);
+        pacientesEnEspera.ponerPacienteEnEspera(encontrado);
         while (!temp.esVacio())
         {
             cola.poneEnCola(temp.quitaDeCola());
@@ -160,11 +156,27 @@ public class SystemFacade {
         
 
     }
+    public boolean modificarUrgencia(int cedula, NivelPrioridad nuevoNivel) {
+    // Buscar al paciente por cédula
+    for (int i = 0; i < pacientes.tamaño(); i++) {
+        Paciente p = pacientes.obtener(i);
+        if (p.getCedula() == cedula) {
+            return modificarUrgencia(p, nuevoNivel);
+        }
+    }
+    return false; // Paciente no encontrado
+}
 
-    Paciente obtenerProximoPaciente(){
-        /*
-        Devuelve el siguiente paciente que se encuentra en la cola PorAtender.
-        */
+    public Paciente obtenerProximoPaciente() {
+    // Obtener la cola de espera
+    ColaConPrioridad<Paciente> cola = pacientesEnEspera.getPorAtender();
+    
+    // Verificar si la cola está vacía
+    if (cola == null || cola.esVacio()) {
         return null;
+    }
+    
+    // Devolver el frente sin eliminarlo
+    return cola.frente();
     }
 }
