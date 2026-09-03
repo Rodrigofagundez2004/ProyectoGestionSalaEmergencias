@@ -2,6 +2,7 @@ package ucu.edu.aed.implementaciones;
 
 import java.util.Comparator;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 import ucu.edu.aed.tda.TDAElemento;
 
@@ -15,8 +16,6 @@ public class ElementoABB <T> implements TDAElemento <T> {
         this.dato = dato;
         this.hijoIzq = null;
         this.hijoDer = null;
-
-
     }
     @Override
     public void setHijoIzquierdo(TDAElemento<T> hijoIzquierdo)
@@ -80,6 +79,43 @@ public class ElementoABB <T> implements TDAElemento <T> {
         }
         return QuitarNodo();
     }
+
+    @Override
+    public void insertar(Comparable<T> nuevoDato) {
+        if (nuevoDato.compareTo(this.dato) > 0) {
+            if (hijoDer == null) {
+                hijoDer = new ElementoABB<>((T)dato);
+            }
+            hijoDer.insertar(nuevoDato);
+        } else if (nuevoDato.compareTo(this.dato) < 0) {
+            if (hijoIzq == null) {
+                hijoIzq = new ElementoABB<>((T)dato);
+            }
+            hijoIzq.insertar(nuevoDato);
+        }
+    }
+
+    @Override
+    public void preOrder(Consumer<TDAElemento<T>> consumidor) {
+        consumidor.accept(this);
+        if (this.hijoIzq != null) this.hijoIzq.preOrder(consumidor);
+        if (this.hijoDer != null) this.hijoDer.preOrder(consumidor);
+    }
+
+    @Override
+    public void postOrder(Consumer<TDAElemento<T>> consumidor) {
+        if (this.hijoIzq != null) this.hijoIzq.postOrder(consumidor);
+        if (this.hijoDer != null) this.hijoDer.postOrder(consumidor);
+        consumidor.accept(this);
+    }
+
+    @Override
+    public void inOrder(Consumer<TDAElemento<T>> consumidor) {
+        if (this.hijoIzq != null) this.hijoIzq.inOrder(consumidor);
+        consumidor.accept(this);
+        if (this.hijoDer != null) this.hijoDer.inOrder(consumidor);
+    }
+
     private TDAElemento<T> QuitarNodo()
     {
        
