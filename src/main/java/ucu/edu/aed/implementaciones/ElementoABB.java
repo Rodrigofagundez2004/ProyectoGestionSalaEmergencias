@@ -1,7 +1,5 @@
 package ucu.edu.aed.implementaciones;
 
-import java.util.Comparator;
-import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 import ucu.edu.aed.tda.TDAElemento;
@@ -84,12 +82,12 @@ public class ElementoABB <T> implements TDAElemento <T> {
     public void insertar(Comparable<T> nuevoDato) {
         if (nuevoDato.compareTo(this.dato) > 0) {
             if (hijoDer == null) {
-                hijoDer = new ElementoABB<>((T)dato);
+                hijoDer = new ElementoABB<>((T)nuevoDato);
             }
             hijoDer.insertar(nuevoDato);
         } else if (nuevoDato.compareTo(this.dato) < 0) {
             if (hijoIzq == null) {
-                hijoIzq = new ElementoABB<>((T)dato);
+                hijoIzq = new ElementoABB<>((T)nuevoDato);
             }
             hijoIzq.insertar(nuevoDato);
         }
@@ -114,6 +112,95 @@ public class ElementoABB <T> implements TDAElemento <T> {
         if (this.hijoIzq != null) this.hijoIzq.inOrder(consumidor);
         consumidor.accept(this);
         if (this.hijoDer != null) this.hijoDer.inOrder(consumidor);
+    }
+
+    @Override
+    public int cantidadNodos() {
+        int cantDer;
+        int cantIzq;
+        if (hijoIzq != null) {
+            cantIzq = hijoIzq.cantidadNodos();
+        } else {
+            cantIzq = 0;
+        }
+        if (hijoDer != null) {
+            cantDer = hijoDer.cantidadNodos();
+        } else {
+            cantDer = 0;
+        }
+        return cantIzq + cantDer + 1;
+    }
+
+    @Override
+    public boolean esHoja() {
+        if (hijoIzq != null) {
+            return false;
+        }
+        if (hijoDer != null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int cantidadHojas() {
+        if (esHoja()) {
+            return 1;
+        }
+        int hojasDer;
+        int hojasIzq;
+        if (hijoIzq != null) {
+            hojasIzq = hijoIzq.cantidadHojas();
+        } else {
+            hojasIzq = 0;
+        }
+        if (hijoDer != null) {
+            hojasDer = hijoDer.cantidadHojas();
+        } else {
+            hojasDer = 0;
+        }
+        return hojasIzq + hojasDer;
+    }
+
+    @Override
+    public int cantidadNodosInternos() {
+        return cantidadNodos() - cantidadHojas();
+    }
+
+    @Override
+    public int altura() {
+        int altDer;
+        int altIzq;
+        if (hijoIzq != null) {
+            altIzq = hijoIzq.altura();
+        } else {
+            altIzq = -1;
+        }
+        if (hijoDer != null) {
+            altDer = hijoDer.altura();
+        } else {
+            altDer = -1;
+        }
+        return altIzq + altDer;
+    }
+
+    @Override
+    public int obtenerNivel(Comparable<T> criterio) {
+        if (criterio.compareTo(this.dato) == 0) {
+            return 0;
+        }
+        if (criterio.compareTo(this.dato) < 0 && this.hijoIzq != null) {
+            int nivelEnIzq = this.hijoIzq.obtenerNivel(criterio);
+            if (nivelEnIzq != -1) {
+                return nivelEnIzq + 1;
+            }
+        } else if (criterio.compareTo(this.dato) > 0 && this.hijoDer != null) {
+            int nivelEnDer = this.hijoDer.obtenerNivel(criterio);
+            if (nivelEnDer != -1) {
+                return nivelEnDer + 1;
+            }
+        }
+        return -1;
     }
 
     private TDAElemento<T> QuitarNodo()

@@ -20,6 +20,20 @@ public class ArbolBinarioBusquedad <T> implements TDAArbolBinario<T>{
     }
 
     @Override
+    public TDAElemento<T> obtenerRaiz() {
+        return this.raiz;
+    }
+
+    @Override
+    public boolean eliminar(Comparable<T> criterio) {
+        if (this.raiz != null) {
+            this.raiz = (ElementoABB<T>) this.raiz.eliminar(criterio);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean insertar(Comparable<T> dato){
         if (esVacio()){
             raiz = new ElementoABB<>((T)dato);
@@ -27,6 +41,13 @@ public class ArbolBinarioBusquedad <T> implements TDAArbolBinario<T>{
             raiz.insertar(dato);
         }
         return true;
+    }
+
+    @Override
+    public void inOrder(Consumer<T> consumidor) {
+        if (raiz != null) {
+            raiz.inOrder(elemento -> consumidor.accept(elemento.getDato()));
+        }
     }
 
     @Override
@@ -44,14 +65,31 @@ public class ArbolBinarioBusquedad <T> implements TDAArbolBinario<T>{
     }
 
     @Override
-    public void inOrder(Consumer<T> consumidor) {
-        if (raiz != null) {
-            raiz.inOrder(elemento -> consumidor.accept(elemento.getDato()));
-        }
-    }
-
-    @Override
     public boolean esVacio(){
         return raiz == null;
     } 
+
+    @Override
+    public int cantidadNodos() {
+        if (esVacio()) {
+            return 0;
+        }
+        return raiz.cantidadNodos();
+    }
+
+    @Override
+    public int cantidadHojas() {
+        if (esVacio()) {
+            return 0;
+        }
+        return raiz.cantidadHojas();
+    }
+
+    @Override
+    public int cantidadNodosInternos() {
+        if (esVacio()) {
+            return 0;
+        }
+        return raiz.cantidadNodosInternos();
+    }
 }
