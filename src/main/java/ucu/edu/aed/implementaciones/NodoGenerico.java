@@ -200,11 +200,11 @@ public class NodoGenerico<T> {
     
     public void postOrder(Consumer<NodoGenerico<T>> consumidor) {
         if (this.primerHijo != null) {
-            this.primerHijo.preOrder(consumidor);
+            this.primerHijo.postOrder(consumidor);
         }
 
         if (this.hermanoDerecho != null) {
-            this.hermanoDerecho.preOrder(consumidor);
+            this.hermanoDerecho.postOrder(consumidor);
         }
 
         consumidor.accept(this);
@@ -305,7 +305,7 @@ public class NodoGenerico<T> {
         return 1 + alturaMaximaHijos;
     }
 
-    
+
     public int obtenerNivel(Comparable<T> criterioBusqueda) {
         // Caso base: si el nodo coincide con el criterio, el nivel actual es 0.
         if (criterioBusqueda.compareTo(this.dato) == 0) {
