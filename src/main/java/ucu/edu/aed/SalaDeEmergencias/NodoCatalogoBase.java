@@ -1,0 +1,21 @@
+package ucu.edu.aed.SalaDeEmergencias;
+
+public class NodoCatalogoBase implements iNodoCatalogo {
+    protected String nombre;
+
+    public NodoCatalogoBase(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public boolean aceptaHijo(iNodoCatalogo nodoCatalogo) {
+        return false;
+    }
+}
