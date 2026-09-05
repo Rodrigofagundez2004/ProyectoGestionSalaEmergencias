@@ -12,9 +12,9 @@ public class Main {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         Date fechaIngreso = formato.parse("23/08/2026");
-        Paciente paciente1 = new Paciente(54278247, "Francisco", "Lopez", (byte) 16, fechaIngreso, Causa.TAQUICARDIA, NivelPrioridad.MEDIA);
-        Paciente paciente2 = new Paciente(34562479, "Mauro", "Martinez", (byte) 47, fechaIngreso, Causa.LESION_RODILLA, NivelPrioridad.BAJA);
-        Paciente paciente3 = new Paciente(54825523, "Rodrigo", "Perez", (byte) 22, fechaIngreso, Causa.TRAUMATISMO_CRANEAL, NivelPrioridad.URGENTE);
+        Paciente paciente1 = new Paciente(54278247, "Francisco", "Lopez", (byte) 16, fechaIngreso, Causa.ABSCESO, NivelPrioridad.MEDIA);
+        Paciente paciente2 = new Paciente(34562479, "Mauro", "Martinez", (byte) 47, fechaIngreso, Causa.INSUFICIENCIA_RESPIRATORIA, NivelPrioridad.BAJA);
+        Paciente paciente3 = new Paciente(54825523, "Rodrigo", "Perez", (byte) 22, fechaIngreso, Causa.APENDICITIS, NivelPrioridad.URGENTE);
         Paciente paciente4 = new Paciente(25671821, "Natalia", "Rodriguez", (byte) 50, fechaIngreso, Causa.FRACTURA_PERONE, NivelPrioridad.ALTA);
         facade.registrarPaciente(paciente1);
         facade.registrarPaciente(paciente2);
