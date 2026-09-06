@@ -4,8 +4,18 @@ public class Capitulo extends NodoCatalogoBase {
     private String codigoInicio;
     private String codigoFin;
 
-    public Capitulo(String nombre) {
+    public Capitulo(String nombre, String codigoInicio, String codigoFin) {
         super(nombre);
+        this.codigoInicio = codigoInicio;
+        this.codigoFin = codigoFin;
+    }
+
+    public String getCodigoInicio () {
+        return codigoInicio;
+    }
+
+    public String getCodigoFin () {
+        return codigoFin;
     }
 
     @Override 

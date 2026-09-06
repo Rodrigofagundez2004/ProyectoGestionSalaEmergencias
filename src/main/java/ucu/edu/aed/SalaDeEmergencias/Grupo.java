@@ -16,7 +16,7 @@ public class Grupo extends NodoCatalogoBase {
     }
 
     public String getCodigoFin () {
-        return codigoInicio;
+        return codigoFin;
     }
 
     @Override 

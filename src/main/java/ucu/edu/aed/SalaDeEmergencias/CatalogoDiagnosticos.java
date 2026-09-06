@@ -3,11 +3,11 @@ import ucu.edu.aed.implementaciones.ArbolGenerico;
 import ucu.edu.aed.tda.TDALista;
 
 public class CatalogoDiagnosticos {
-    private iNodoCatalogo raiz;
+    private NodoCatalogoRaiz raiz;
     private ArbolGenerico<iNodoCatalogo> arbol;
 
     public CatalogoDiagnosticos() {
-        this.raiz = new NodoCatalogoBase("Catalogo");
+        this.raiz = new NodoCatalogoRaiz("Catalogo");
         this.arbol = new ArbolGenerico<>(raiz);
     }
 
@@ -21,7 +21,6 @@ public class CatalogoDiagnosticos {
         }
         return arbol.insertar(nodo -> nodo == raiz, capitulo);
     }
-
 
     /*
         Genera un nuevo Grupo, los grupos son hijos directos de los distintos Capitulos.
