@@ -45,12 +45,8 @@ public class CatalogoDiagnosticos {
     }
 
     /*
-        Recorre el capitulo ingresado por parametro y devuelve una lista con todos los codigos del capitulo.
+        Busca un codigo en base a su ID, ejemplo: A01, B19
     */
-    public TDALista<Codigo> obtenerCodigosDeCapitulo(String nombreCapitulo) {
-        return null;
-    }
-
     public Codigo buscarCodigo(String codigoDiagnostico) {
         if (codigoDiagnostico == null) {
             return null;
@@ -59,4 +55,13 @@ public class CatalogoDiagnosticos {
         iNodoCatalogo encontrado = arbol.buscar(nodo -> nodo instanceof Codigo c && c.getId().equals(codigoDiagnostico));
         return (encontrado instanceof Codigo codigo) ? codigo : null;
     }
+
+    /*
+        Recorre el capitulo ingresado por parametro y devuelve una lista con todos los codigos del capitulo.
+    */
+    public TDALista<Codigo> obtenerCodigosDeCapitulo(String nombreCapitulo) {
+        return null;
+    }
+
+    
 }
