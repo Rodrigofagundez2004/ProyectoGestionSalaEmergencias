@@ -1,14 +1,14 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
 public class Procedimiento extends RegistroClinico {
-    TipoProcedimiento tipoProcedimiento;
+    private final TipoProcedimiento tipoProcedimiento;
 
-    public void Procedimiento(TipoProcedimiento procedimiento) {
-        this.tipoProcedimiento = procedimiento;
+    public Procedimiento(String descripcion, TipoProcedimiento tipoProcedimiento) {
+        super(descripcion);
+        this.tipoProcedimiento = tipoProcedimiento;
     }
 
-    public TipoProcedimiento getProcedimiento() {
-        return this.tipoProcedimiento;
+    public TipoProcedimiento getTipoProcedimiento() {
+        return tipoProcedimiento;
     }
-
 }

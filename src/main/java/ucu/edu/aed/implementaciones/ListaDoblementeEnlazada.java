@@ -1,4 +1,6 @@
 package ucu.edu.aed.implementaciones;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import java.util.Comparator;
 import java.util.function.Predicate;
@@ -18,7 +20,7 @@ import ucu.edu.aed.tda.TDALista;
  *
  * @param <T> el tipo de los elementos almacenados en la lista
  */
-public class ListaDoblementeEnlazada<T> implements TDALista<T> {
+public class ListaDoblementeEnlazada<T> implements TDALista<T>, Iterable<T>{
 
     protected NodoDoble<T> primero;
     protected NodoDoble<T> ultimo;
@@ -63,7 +65,27 @@ public class ListaDoblementeEnlazada<T> implements TDALista<T> {
         this.ultimo = nuevoNodo;
         this.tamaño++;
     }
+        @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private NodoDoble<T> actual = primero;
 
+            @Override
+            public boolean hasNext() {
+                return actual != null;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                T dato = actual.getDato();
+                actual = actual.getSiguiente();
+                return dato;
+            }
+        };
+    }
     @Override
     public void agregar(int index, T elem) {
         if (index < 0 || index > this.tamaño) {

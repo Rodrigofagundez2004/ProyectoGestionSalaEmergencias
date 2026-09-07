@@ -1,23 +1,24 @@
+
 package ucu.edu.aed.SalaDeEmergencias;
 
-public class Insumo extends RegistroClinico{
-    String Nombre;
-    int Cantidad;
+public class Insumo {
+    private final String nombre;
+    private int cantidad;
 
-    public void Insumo (String nombre, int cantidad) {
-        this.Nombre = nombre;
-        this.Cantidad = cantidad;
+    public Insumo(String nombre, int cantidad) {
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getCantidad() {
+        return cantidad;
     }
 
     public void setCantidad(int cantidad) {
-        this.Cantidad = cantidad;
-    }
-
-    public int getCantidad(){
-        return Cantidad;
-    }
-
-    public String getNombre(){
-        return Nombre;
+        this.cantidad = cantidad;
     }
 }

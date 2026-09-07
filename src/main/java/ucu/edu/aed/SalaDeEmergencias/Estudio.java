@@ -1,14 +1,14 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-public class Estudio extends RegistroClinico{
+public class Estudio extends RegistroClinico {
+    private final TipoEstudio tipoEstudio;
 
-    TipoEstudio estudio;
-
-    public void Estudio(TipoEstudio estudio){
-        this.estudio = estudio;
+    public Estudio(String descripcion, TipoEstudio tipoEstudio) {
+        super(descripcion);
+        this.tipoEstudio = tipoEstudio;
     }
 
-    public TipoEstudio getEstudio(){
-        return estudio;
+    public TipoEstudio getTipoEstudio() {
+        return tipoEstudio;
     }
 }
