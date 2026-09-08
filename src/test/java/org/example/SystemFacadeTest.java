@@ -1,4 +1,4 @@
-package ucu.edu.aed.SalaDeEmergencias;
+package org.example;
 import ucu.edu.aed.SalaDeEmergencias.Paciente;
 import ucu.edu.aed.SalaDeEmergencias.Causa;
 import ucu.edu.aed.SalaDeEmergencias.NivelPrioridad;
@@ -22,10 +22,10 @@ public class SystemFacadeTest extends TestCase {
         sistema = new SystemFacade();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        paciente1 = new Paciente(1, "Juan", "Perez", (byte) 45, sdf.parse("15/03/1980"), Causa.FRACTURA, NivelPrioridad.MEDIA);
+        paciente1 = new Paciente(1, "Juan", "Perez", (byte) 45, sdf.parse("15/03/1980"), Causa.FRACTURA_PERONE, NivelPrioridad.MEDIA);
         paciente2 = new Paciente(2, "Maria", "Gomez", (byte) 30, sdf.parse("20/07/1995"), Causa.APENDICITIS, NivelPrioridad.URGENTE);
-        paciente3 = new Paciente(3, "Carlos", "Lopez", (byte) 60, sdf.parse("10/12/1965"), Causa.TAQUICARDIA, NivelPrioridad.ALTA);
-        paciente4 = new Paciente(4, "Ana", "Martinez", (byte) 25, sdf.parse("05/09/2000"), Causa.LESION_RODILLA, NivelPrioridad.BAJA);
+        paciente3 = new Paciente(3, "Carlos", "Lopez", (byte) 60, sdf.parse("10/12/1965"), Causa.ABSCESO, NivelPrioridad.ALTA);
+        paciente4 = new Paciente(4, "Ana", "Martinez", (byte) 25, sdf.parse("05/09/2000"), Causa.CORTE, NivelPrioridad.BAJA);
     }
 
     // TESTS: obtenerProximoPaciente()    // ============================================================
@@ -58,7 +58,7 @@ public class SystemFacadeTest extends TestCase {
     public void testObtenerProximoPaciente_DeberiaRespetarFIFOEnEmpate() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         
-        Paciente p1 = new Paciente(10, "Primero", "A", (byte) 30, sdf.parse("01/01/1995"), Causa.FRACTURA, NivelPrioridad.ALTA);
+        Paciente p1 = new Paciente(10, "Primero", "A", (byte) 30, sdf.parse("01/01/1995"), Causa.FRACTURA_PERONE, NivelPrioridad.ALTA);
         Paciente p2 = new Paciente(11, "Segundo", "B", (byte) 40, sdf.parse("02/02/1985"), Causa.APENDICITIS, NivelPrioridad.ALTA);
 
         sistema.registrarPaciente(p1);
@@ -113,7 +113,7 @@ public class SystemFacadeTest extends TestCase {
         SystemFacade sistemaLocal = new SystemFacade();
         
         Paciente pacienteA = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.APENDICITIS, NivelPrioridad.URGENTE);
-        Paciente pacienteB = new Paciente(98765432, "Jane", "Doe", (byte) 14, new Date(), Causa.LESION_RODILLA, NivelPrioridad.BAJA);
+        Paciente pacienteB = new Paciente(98765432, "Jane", "Doe", (byte) 14, new Date(), Causa.CORTE, NivelPrioridad.BAJA);
 
         sistemaLocal.registrarPaciente(pacienteA);
         sistemaLocal.registrarPaciente(pacienteB);
@@ -130,7 +130,7 @@ public class SystemFacadeTest extends TestCase {
 
     public void testEstaAtendido_CuandoPacienteFueAtendido_DeberiaDevolverTrue() {
         SystemFacade sistemaLocal = new SystemFacade();
-        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.TAQUICARDIA, NivelPrioridad.URGENTE);
+        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.ABSCESO, NivelPrioridad.URGENTE);
         
         sistemaLocal.registrarPaciente(paciente);
         sistemaLocal.atenderPaciente();
@@ -140,14 +140,14 @@ public class SystemFacadeTest extends TestCase {
 
     public void testEstaAtendido_CuandoPacienteNoLlego_DeberiaDevolverFalse() {
         SystemFacade sistemaLocal = new SystemFacade();
-        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.TAQUICARDIA, NivelPrioridad.MEDIA);
+        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.FRACTURA_PERONE, NivelPrioridad.MEDIA);
         
         assertFalse(sistemaLocal.estaAtendido(paciente));
     }
 
     public void testEstaAtendido_CuandoPacienteRegistradoPeroNoAtendido_DeberiaDevolverFalse() {
         SystemFacade sistemaLocal = new SystemFacade();
-        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.TAQUICARDIA, NivelPrioridad.MEDIA);
+        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.CORTE, NivelPrioridad.MEDIA);
         
         sistemaLocal.registrarPaciente(paciente);
         
@@ -159,7 +159,7 @@ public class SystemFacadeTest extends TestCase {
 
     public void testModificarUrgencia_DeberiaCambiarLaPrioridad() {
         SystemFacade sistemaLocal = new SystemFacade();
-        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.LESION_RODILLA, NivelPrioridad.BAJA);
+        Paciente paciente = new Paciente(12345678, "Jhon", "Doe", (byte) 20, new Date(), Causa.INSUFICIENCIA_RESPIRATORIA, NivelPrioridad.BAJA);
 
         sistemaLocal.registrarPaciente(paciente);
         sistemaLocal.modificarUrgencia(paciente, NivelPrioridad.MEDIA);
@@ -169,7 +169,7 @@ public class SystemFacadeTest extends TestCase {
 
     public void testModificarUrgencia_CuandoPacienteNoExiste_DeberiaDevolverFalse() {
         SystemFacade sistemaLocal = new SystemFacade();
-        Paciente paciente = new Paciente(99999999, "Inexistente", "Test", (byte) 30, new Date(), Causa.FRACTURA, NivelPrioridad.BAJA);
+        Paciente paciente = new Paciente(99999999, "Inexistente", "Test", (byte) 30, new Date(), Causa.FRACTURA_PERONE, NivelPrioridad.BAJA);
 
         boolean resultado = sistemaLocal.modificarUrgencia(paciente, NivelPrioridad.ALTA);
 

@@ -46,7 +46,7 @@ public class SystemFacade {
 		return false;
 	}
 	Paciente paciente = pacientesEnEspera.getPorAtender().quitaDeCola();
-	Procedimiento procedimiento = paciente.getCausa().getProcedimiento();
+	TipoProcedimiento procedimiento = paciente.getCausa().getProcedimiento();
 	paciente.getProcedimientosRealizados().agregar(procedimiento);
 	atendidos.agregar(paciente);
 	

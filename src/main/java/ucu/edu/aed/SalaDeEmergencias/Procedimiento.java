@@ -1,9 +1,14 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-public enum Procedimiento {
-    ELECTROCARDIOGRAMA,
-    TOMOGRAFIA,
-    RESONANCIA,
-    RADIOGRAFIA,
-    CIRUGIA_GENERAL
+public class Procedimiento extends RegistroClinico {
+    private final TipoProcedimiento tipoProcedimiento;
+
+    public Procedimiento(String descripcion, TipoProcedimiento tipoProcedimiento) {
+        super(descripcion);
+        this.tipoProcedimiento = tipoProcedimiento;
+    }
+
+    public TipoProcedimiento getTipoProcedimiento() {
+        return tipoProcedimiento;
+    }
 }

@@ -31,7 +31,7 @@ public class SalaDeEsperaTest extends TestCase {
             "Garcia", 
             (byte) 22, 
             fechaIngreso, 
-            Causa.TAQUICARDIA,
+            Causa.ABSCESO,
             NivelPrioridad.BAJA 
         );
 
@@ -55,7 +55,7 @@ public class SalaDeEsperaTest extends TestCase {
             "Garcia", 
             (byte) 22, 
             fechaIngreso, 
-            Causa.LESION_RODILLA,
+            Causa.CORTE,
             NivelPrioridad.BAJA  
         );
 
@@ -81,7 +81,7 @@ public class SalaDeEsperaTest extends TestCase {
             "Garcia", 
             (byte) 22, 
             fechaIngreso1, 
-            Causa.LESION_RODILLA,
+            Causa.CORTE,
             NivelPrioridad.BAJA  
         );
         pacienteBajaPrioridad.setTiempoEsperando(LIMITE_ESPERA_URGENCIA_BAJA - 1);
@@ -93,7 +93,7 @@ public class SalaDeEsperaTest extends TestCase {
             "Martinez", 
             (byte) 6, 
             fechaIngreso2, 
-            Causa.TRAUMATISMO_CRANEAL,
+            Causa.INSUFICIENCIA_RESPIRATORIA,
             NivelPrioridad.MEDIA  
         );
         pacienteMediaPrioridad.setTiempoEsperando(1);

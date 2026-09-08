@@ -169,19 +169,15 @@ public class ElementoABB <T> implements TDAElemento <T> {
 
     @Override
     public int altura() {
-        int altDer;
-        int altIzq;
+        int altDer = -1;
+        int altIzq = -1;
         if (hijoIzq != null) {
             altIzq = hijoIzq.altura();
-        } else {
-            altIzq = -1;
         }
         if (hijoDer != null) {
             altDer = hijoDer.altura();
-        } else {
-            altDer = -1;
         }
-        return altIzq + altDer;
+        return Math.max(altIzq, altDer) + 1;
     }
 
     @Override
