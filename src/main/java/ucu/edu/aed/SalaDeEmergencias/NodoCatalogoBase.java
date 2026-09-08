@@ -1,6 +1,6 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-public abstract class NodoCatalogoBase implements iNodoCatalogo {
+public abstract class NodoCatalogoBase implements INodoCatalogo {
     protected String nombre;
 
     public NodoCatalogoBase(String nombre) {
@@ -15,7 +15,7 @@ public abstract class NodoCatalogoBase implements iNodoCatalogo {
         return nombre;
     }
 
-    public boolean aceptaHijo(iNodoCatalogo nodoCatalogo) {
+    public boolean aceptaHijo(INodoCatalogo nodoCatalogo) {
         return false;
     }
 }

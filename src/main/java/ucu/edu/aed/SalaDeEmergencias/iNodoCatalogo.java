@@ -1,7 +1,7 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-public interface iNodoCatalogo {
+public interface INodoCatalogo {
     String getNombre();
-    boolean aceptaHijo(iNodoCatalogo nodoCatalogo);
+    boolean aceptaHijo(INodoCatalogo nodoCatalogo);
     
 }

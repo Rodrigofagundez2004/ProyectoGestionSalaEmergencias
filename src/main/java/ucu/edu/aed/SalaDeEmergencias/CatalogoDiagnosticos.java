@@ -4,7 +4,7 @@ import ucu.edu.aed.tda.TDALista;
 
 public class CatalogoDiagnosticos {
     private NodoCatalogoRaiz raiz;
-    private ArbolGenerico<iNodoCatalogo> arbol;
+    private ArbolGenerico<INodoCatalogo> arbol;
 
     public CatalogoDiagnosticos() {
         this.raiz = new NodoCatalogoRaiz("Catalogo");
@@ -52,7 +52,7 @@ public class CatalogoDiagnosticos {
             return null;
         }
 
-        iNodoCatalogo encontrado = arbol.buscar(nodo -> nodo instanceof Codigo c && c.getId().equals(codigoDiagnostico));
+        INodoCatalogo encontrado = arbol.buscar(nodo -> nodo instanceof Codigo c && c.getId().equals(codigoDiagnostico));
         return (encontrado instanceof Codigo codigo) ? codigo : null;
     }
 

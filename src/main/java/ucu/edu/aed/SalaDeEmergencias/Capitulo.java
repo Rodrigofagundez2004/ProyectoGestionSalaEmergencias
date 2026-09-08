@@ -19,7 +19,7 @@ public class Capitulo extends NodoCatalogoBase {
     }
 
     @Override 
-    public boolean aceptaHijo(iNodoCatalogo nodo) {
+    public boolean aceptaHijo(INodoCatalogo nodo) {
         if (!(nodo instanceof Grupo)) {
             return false;
         }

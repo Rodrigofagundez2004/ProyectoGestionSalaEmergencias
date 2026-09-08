@@ -7,7 +7,7 @@ public class NodoCatalogoRaiz extends NodoCatalogoBase {
 
     // La raiz solo va a aceptar que sus hijos sean capitulos
     @Override
-    public boolean aceptaHijo(iNodoCatalogo nodo) {
+    public boolean aceptaHijo(INodoCatalogo nodo) {
         return nodo instanceof Capitulo;
     }
 }
