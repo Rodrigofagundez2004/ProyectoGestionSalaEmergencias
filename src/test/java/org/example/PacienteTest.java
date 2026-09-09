@@ -4,7 +4,7 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 import ucu.edu.aed.SalaDeEmergencias.Causa;
-import ucu.edu.aed.SalaDeEmergencias.ConsultaInicial;
+import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInicial;
 import ucu.edu.aed.SalaDeEmergencias.EpisodioClinico;
 import ucu.edu.aed.SalaDeEmergencias.NivelPrioridad;
 import ucu.edu.aed.SalaDeEmergencias.Paciente;
