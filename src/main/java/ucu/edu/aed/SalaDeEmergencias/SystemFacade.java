@@ -3,10 +3,11 @@ package ucu.edu.aed.SalaDeEmergencias;
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.CatalogoDiagnosticos;
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Codigo;
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Diagnostico;
-import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInicial;
+import ucu.edu.aed.SalaDeEmergencias.Registro.*;
 import ucu.edu.aed.implementaciones.jerarquicas.AVL.ArbolBinarioBalanceado;
 import ucu.edu.aed.implementaciones.lineales.colas.ColaConPrioridad;
 import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
+
 
 public class SystemFacade {
     private ArbolBinarioBalanceado<Paciente> pacientes;
@@ -37,8 +38,8 @@ public class SystemFacade {
         /*
         Toma de PorAtender al paciente que corresponda según el criterio
         de prioridad. Determina el procedimiento que corresponde según la causa.
-        Agrega dicho procedimiento al historial de procedimientos del paciente.
-        Finalmente agrega el paciente a la lista Atendidos.
+        Agrega dicho procedimiento al historial de procedimientos del paciente,
+        finalmente agrega el paciente a la lista Atendidos.
         Devuelve true si se pudo realizar la atención y false si no se pudo.
          */
         if (pacientesEnEspera.getPorAtender().esVacio()) {
@@ -56,8 +57,8 @@ public class SystemFacade {
 
     
     /*
-        Se pasa cedula, el id del codigo y si esta confirmado, para asignar un diagnostico.
-        Se va a buscar que episodio clinico tiene el pasiente aun sin cerrar (es decir esta en curso)
+        Se pasa cedula y el íd del codigo, si está confirmado, para asignar un diagnóstico.
+        Se va a buscar que episodio clinico tiene el pasiente aun sin cerrar (es decir está en curso)
         para asignarselo a ese.
     */
     public boolean asignarDiagnostico(int cedula, String codigoId, boolean confirmado) {
@@ -68,7 +69,7 @@ public class SystemFacade {
 
         Codigo codigo = catalogoDiagnosticos.buscarCodigo(codigoId);
         if (codigo == null) {
-            return false; // el codigo no existe en el catalogo institucional
+            return false; // el codigo no existe en el catálogo institucional
         }
 
         episodio.agregarDiagnostico(new Diagnostico(codigo, confirmado));
@@ -84,43 +85,6 @@ public class SystemFacade {
             return true;
         }
         return false;
-    }
-
-   public String consultarSobrePaciente(int cedulaPaciente){   
-        Paciente encontrado = pacientes.buscar(otro -> Integer.compare(cedulaPaciente, otro.getCedula()));
-        if (encontrado == null) {
-            return "Paciente no encontrado";
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("===DATOS DEL PACIENTE===\n");
-        sb.append("Cédula: ").append(encontrado.getCedula()).append("\n");
-        sb.append("Nombre: ").append(encontrado.getNombre()).append("\n");
-        sb.append("Apellido: ").append(encontrado.getApellido()).append("\n");
-        sb.append("Edad: ").append(encontrado.getEdad()).append("\n");
-        sb.append("Fecha de ingreso: ").append(encontrado.getFechaIngreso()).append("\n");
-        sb.append("Prioridad: ").append(encontrado.getPrioridad()).append("\n");
-        sb.append("Tiempo en espera: ").append(encontrado.getTiempoEsperando()).append("\n");
-        sb.append("Procedimientos realizados: ");
-        ListaDoblementeEnlazada<EpisodioClinico> procedimientos = encontrado.getEpisodiosClinicos();
-
-        if (procedimientos == null || procedimientos.esVacio()) 
-        {
-            sb.append("Ninguno");
-
-        } else {
-            for (int j = 0; j < procedimientos.tamaño(); j++)
-            {
-                sb.append(procedimientos.obtener(j));
-                if (j < procedimientos.tamaño() - 1) {
-                    sb.append(", ");
-                }
-            }
-        }
-        sb.append("\n");
-        sb.append("=========================\n");
-        return sb.toString();
-        
     }
 
     public boolean modificarUrgencia(Paciente paciente, NivelPrioridad nuevoNivel){
@@ -192,37 +156,35 @@ public class SystemFacade {
         return cola.frente();
     }
 
-    /*
-        REVISAR REVISAR REVISAR REVISAR REVISAR
-    
-    public boolean agregarEstudio(int cedula, IRegistroClinico padre, Estudio estudio) {
-        EpisodioClinico episodio = episodioAbierto(cedula);
+    public boolean agregarEstudio(int cedula, int idPadre, Estudio estudio) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
         if (episodio == null) return false;
-        return episodio.agregarRegistro(padre, estudio);
+        return episodio.agregarRegistro(estudio, idPadre);
     }
 
-    public boolean agregarConsultaInterna(int cedula, IRegistroClinico padre, ConsultaInterna consulta) {
-        EpisodioClinico episodio = episodioAbierto(cedula);
+    public boolean agregarConsultaInterna(int cedula, int idPadre, ConsultaInterna consulta) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
         if (episodio == null) return false;
-        return episodio.agregarRegistro(padre, consulta);
+        return episodio.agregarRegistro(consulta, idPadre);
     }
 
-    public boolean agregarProcedimiento(int cedula, IRegistroClinico padre, Procedimiento procedimiento) {
-        EpisodioClinico episodio = episodioAbierto(cedula);
+    public boolean agregarProcedimiento(int cedula, int idPadre, Procedimiento procedimiento) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
         if (episodio == null) return false;
-        return episodio.agregarRegistro(padre, procedimiento);
+        return episodio.agregarRegistro(procedimiento, idPadre);
     }
 
-    public boolean agregarComplicacion(int cedula, IRegistroClinico padre, Complicacion complicacion) {
-        EpisodioClinico episodio = episodioAbierto(cedula);
+    public boolean agregarComplicacion(int cedula, int idPadre, Complicacion complicacion) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
         if (episodio == null) return false;
-        return episodio.agregarRegistro(padre, complicacion);
+        return episodio.agregarRegistro(complicacion, idPadre);
     }
-    */
 
-    /*
-        En base a una cedula, devuelve el episodio abierto del paciente
-    */
+    public String obtenerArbolEpisodio(int cedula) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
+        return (episodio != null) ? episodio.obtenerArbolComoString() : "No hay episodio abierto para ese paciente.";
+    }
+
     private EpisodioClinico obtenerEpisodioAbierto(int cedula) {
         Paciente paciente = pacientes.buscar(otro -> Integer.compare(cedula, otro.getCedula()));
         if (paciente == null) {
@@ -236,5 +198,42 @@ public class SystemFacade {
             }
         }
         return null;
+    }
+
+    public String consultarSobrePaciente(int cedulaPaciente){
+        Paciente encontrado = pacientes.buscar(otro -> Integer.compare(cedulaPaciente, otro.getCedula()));
+        if (encontrado == null) {
+            return "Paciente no encontrado";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("===DATOS DEL PACIENTE===\n");
+        sb.append("Cédula: ").append(encontrado.getCedula()).append("\n");
+        sb.append("Nombre: ").append(encontrado.getNombre()).append("\n");
+        sb.append("Apellido: ").append(encontrado.getApellido()).append("\n");
+        sb.append("Edad: ").append(encontrado.getEdad()).append("\n");
+        sb.append("Fecha de ingreso: ").append(encontrado.getFechaIngreso()).append("\n");
+        sb.append("Prioridad: ").append(encontrado.getPrioridad()).append("\n");
+        sb.append("Tiempo en espera: ").append(encontrado.getTiempoEsperando()).append("\n");
+        sb.append("Procedimientos realizados: ");
+        ListaDoblementeEnlazada<EpisodioClinico> procedimientos = encontrado.getEpisodiosClinicos();
+
+        if (procedimientos == null || procedimientos.esVacio())
+        {
+            sb.append("Ninguno");
+
+        } else {
+            for (int j = 0; j < procedimientos.tamaño(); j++)
+            {
+                sb.append(procedimientos.obtener(j));
+                if (j < procedimientos.tamaño() - 1) {
+                    sb.append(", ");
+                }
+            }
+        }
+        sb.append("\n");
+        sb.append("=========================\n");
+        return sb.toString();
+
     }
 }

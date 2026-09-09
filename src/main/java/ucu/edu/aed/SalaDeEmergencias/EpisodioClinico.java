@@ -8,6 +8,7 @@ import ucu.edu.aed.implementaciones.jerarquicas.generico.ArbolGenerico;
 import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 
 import java.util.Date;
+import java.util.function.Predicate;
 
 public class EpisodioClinico {
 
@@ -71,18 +72,8 @@ public class EpisodioClinico {
      * Asocia un nuevo registro (estudio, interconsulta, procedimiento, complicación...)
      * como hijo del registro que lo originó.
      */
-    public boolean agregarRegistro(IRegistroClinico padre, IRegistroClinico hijo) {
-        if (padre == null || hijo == null) {
-            return false;
-        }
-
-        IRegistroClinico encontrado = registroClinico.buscar(nodo -> nodo == padre);
-        if (encontrado == null) {
-            return false;
-        }
-
-        encontrado.agregarHijo(hijo);
-        return true;
+    public boolean agregarRegistro(IRegistroClinico nodoAInsertar, int idPadre) {
+        return registroClinico.insertar(nodo -> nodo.getId() == idPadre, nodoAInsertar);
     }
 
     private boolean verificarNodosCerrados(IRegistroClinico nodo) {
@@ -169,7 +160,7 @@ public class EpisodioClinico {
             indent += "  ";
             }
 
-        sb.append(indent).append("├─ ").append(nodo.getDescripcion());
+        sb.append(indent).append("├─ [").append(nodo.getId()).append("] ").append(nodo.getDescripcion());
         sb.append(" [").append(nodo.isCerrado() ? "CERRADO" : "ABIERTO").append("]");
         sb.append("\n");
         for (IRegistroClinico hijo : nodo.getHijos()) {
