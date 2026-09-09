@@ -75,7 +75,7 @@ public class ElementoABB <T> implements TDAElemento <T> {
                 this.hijoDer = this.hijoDer.eliminar(criterioBusqueda);
             return this;
         }
-        return QuitarNodo();
+        return quitarNodo();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class ElementoABB <T> implements TDAElemento <T> {
         return -1;
     }
 
-    private TDAElemento<T> QuitarNodo()
+    protected TDAElemento<T> quitarNodo()
     {
        
         if(this.hijoIzq == null)
@@ -210,7 +210,7 @@ public class ElementoABB <T> implements TDAElemento <T> {
         {
             return hijoIzq;
         }
-       TDAElemento<T> elHijo = this.hijoIzq;
+        TDAElemento<T> elHijo = this.hijoIzq;
         TDAElemento<T>elPadre = this;
         while(elHijo.getHijoDerecho() != null)
         {

@@ -119,7 +119,7 @@ public class ArbolBinarioBalanceado <T> extends ArbolBinarioBusquedad<T>{
             nodo.setHijoDerecho(eliminarBalanceado((ElementoAVL<T>) nodo.getHijoDerecho(), criterio));
         }
         else{
-            ElementoAVL<T> reemplazo = (ElementoAVL<T>) nodo.QuitarNodo();
+            ElementoAVL<T> reemplazo = (ElementoAVL<T>) nodo.quitarNodo();
             if (reemplazo == null ){
                 return null;
             }
