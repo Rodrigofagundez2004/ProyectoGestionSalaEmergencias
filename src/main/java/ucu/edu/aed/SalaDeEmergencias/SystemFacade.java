@@ -1,7 +1,9 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-import ucu.edu.aed.implementaciones.ColaConPrioridad;
-import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
+import ucu.edu.aed.SalaDeEmergencias.Registro.Procedimiento;
+import ucu.edu.aed.SalaDeEmergencias.Registro.TipoProcedimiento;
+import ucu.edu.aed.implementaciones.lineales.colas.ColaConPrioridad;
+import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 
 public class SystemFacade {
     private ListaDoblementeEnlazada<Paciente> pacientes;
