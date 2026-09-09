@@ -106,25 +106,32 @@ public class ArbolBinarioBalanceado <T> extends ArbolBinarioBusquedad<T>{
 
     }
 
-    private ElementoAVL<T> eliminarBalanceado(ElementoAVL<T> nodo, Comparable<T> criterio){
-        if (nodo == null){
+    private ElementoAVL<T> eliminarBalanceado(ElementoAVL<T> nodo, Comparable<T> criterio) {
+        if (nodo == null) {
             return null;
         }
-
-        if (criterio.compareTo(nodo.getDato()) < 0){
+        if (criterio.compareTo(nodo.getDato()) < 0) {
             nodo.setHijoIzquierdo(eliminarBalanceado((ElementoAVL<T>) nodo.getHijoIzquierdo(), criterio));
-        }
-
-        else if (criterio.compareTo(nodo.getDato()) > 0){
+        } else if (criterio.compareTo(nodo.getDato()) > 0) {
             nodo.setHijoDerecho(eliminarBalanceado((ElementoAVL<T>) nodo.getHijoDerecho(), criterio));
-        }
-        else{
-            ElementoAVL<T> reemplazo = (ElementoAVL<T>) nodo.quitarNodo();
-            if (reemplazo == null ){
-                return null;
+        } else {
+            if (nodo.getHijoIzquierdo() == null) {
+                return (ElementoAVL<T>) nodo.getHijoDerecho();
             }
-            reemplazo.actualizarAltura();
-            return balancear(reemplazo);
+            if (nodo.getHijoDerecho() == null) {
+                return (ElementoAVL<T>) nodo.getHijoIzquierdo();
+            }
+
+            ElementoAVL<T> predecesor = (ElementoAVL<T>) nodo.getHijoIzquierdo();
+            while (predecesor.getHijoDerecho() != null) {
+                predecesor = (ElementoAVL<T>) predecesor.getHijoDerecho();
+            }
+
+            T datoPredecesor = predecesor.getDato();
+            nodo.setDato(datoPredecesor);
+
+            nodo.setHijoIzquierdo(eliminarBalanceado((ElementoAVL<T>) nodo.getHijoIzquierdo(),
+            elem -> ((Comparable<T>) datoPredecesor).compareTo(elem)));
         }
         nodo.actualizarAltura();
         return balancear(nodo);
