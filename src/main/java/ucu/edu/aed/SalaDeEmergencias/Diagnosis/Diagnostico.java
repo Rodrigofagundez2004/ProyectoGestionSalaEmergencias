@@ -2,37 +2,21 @@ package ucu.edu.aed.SalaDeEmergencias.Diagnosis;
 
 
 public class Diagnostico {
-    private String codigo;
-    private String nombre;
-    private String descripcion;
+    private Codigo codigo;
     private boolean confirmado;
 
     
-    public Diagnostico(String codigo, String nombre, String descripcion) {
+    public Diagnostico(Codigo codigo, boolean confirmado) {
         this.codigo = codigo;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.confirmado = false;
-    }
-
-    public Diagnostico(String codigo, String nombre, String descripcion, boolean confirmado) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
         this.confirmado = confirmado;
     }
 
-    
-    public String getCodigo() {
+    public Codigo getCodigo() {
         return codigo;
     }
 
     public String getNombre() {
-        return nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
+        return codigo.getNombre();
     }
 
     public boolean isConfirmado() {
@@ -43,15 +27,9 @@ public class Diagnostico {
         this.confirmado = confirmado;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-
-    
     @Override
     public String toString() {
-        return codigo + " - " + nombre + (confirmado ? " (CONFIRMADO)" : " (PRESUNTIVO)");
+        return codigo.getId() + " - " + codigo.getNombre() + (confirmado ? " (CONFIRMADO)" : " (PRESUNTIVO)");
     }
 
     @Override

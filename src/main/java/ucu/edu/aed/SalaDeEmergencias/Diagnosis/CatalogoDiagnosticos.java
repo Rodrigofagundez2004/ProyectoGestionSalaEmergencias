@@ -53,7 +53,11 @@ public class CatalogoDiagnosticos {
         }
 
         INodoCatalogo encontrado = arbol.buscar(nodo -> nodo instanceof Codigo c && c.getId().equals(codigoDiagnostico));
-        return (encontrado instanceof Codigo codigo) ? codigo : null;
+        if (encontrado instanceof Codigo codigo) {
+            return codigo;
+        } else {
+            return null;
+        }
     }
 
     /*

@@ -5,27 +5,25 @@ import java.util.Date;
 import ucu.edu.aed.SalaDeEmergencias.Registro.Procedimiento;
 import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 
-public class Paciente {
+public class Paciente implements Comparable<Paciente> {
 
     private int cedula;
     private String nombre;
     private String apellido;
     private byte edad;
     private Date fechaIngreso;
-    private final Causa causa;
     private NivelPrioridad prioridad;
     private int tiempoEsperando;
-    private ListaDoblementeEnlazada<Procedimiento> procedimientosRealizados;
+    private ListaDoblementeEnlazada<EpisodioClinico> episodiosClinicos;
 
-    public Paciente(int cedula, String nombre, String apellido, byte edad, Date fechaIngreso, Causa causa, NivelPrioridad prioridad) {
+    public Paciente(int cedula, String nombre, String apellido, byte edad, Date fechaIngreso, NivelPrioridad prioridad) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.fechaIngreso = fechaIngreso;
-        this.causa = causa;
         this.prioridad = prioridad;
-        this.procedimientosRealizados = new ListaDoblementeEnlazada<>();
+        this.episodiosClinicos = new ListaDoblementeEnlazada<>();
     }
 
     public int getCedula() {
@@ -48,16 +46,12 @@ public class Paciente {
         return fechaIngreso;
     }
 
-    public Causa getCausa() {
-        return causa;
+    public ListaDoblementeEnlazada<EpisodioClinico> getEpisodiosClinicos() {
+        return episodiosClinicos;
     }
 
-    public ListaDoblementeEnlazada<Procedimiento> getProcedimientos() {
-        return procedimientosRealizados;
-    }
-
-    public void agregarProcedimiento(Procedimiento procedimiento) {
-        this.procedimientosRealizados.agregar(procedimiento);
+    public void agregarEpisodioClinico(EpisodioClinico episodio) {
+        this.episodiosClinicos.agregar(episodio);
     }
 
     public NivelPrioridad getPrioridad() {
@@ -71,17 +65,14 @@ public class Paciente {
     public int getTiempoEsperando() {
         return tiempoEsperando;
     }
-    public ListaDoblementeEnlazada<Procedimiento> getProcedimientosRealizados()
-    {
-        return procedimientosRealizados;
-    }
+
     public void setTiempoEsperando(int tiempoEsperando) {
         this.tiempoEsperando = tiempoEsperando;
     }
 
     public String toString() {
         return "Paciente: " + nombre + " " + apellido + " (" + cedula + ") \n Fecha de ingreso: " + fechaIngreso +
-                "\n Fecha de ingreso: " + new Date() + "\n Motivo de la consulta: " + causa + "\n Nivel de prioridad: " + prioridad +
+                "\n Fecha de ingreso: " + new Date() + "\n Nivel de prioridad: " + prioridad +
                 "\n Tiempo de espera: " + tiempoEsperando + "\n Procedimientos realizados: ";
     }
 
@@ -100,5 +91,10 @@ public class Paciente {
     @Override
     public int hashCode() {
         return cedula;
+    }
+
+    @Override
+    public int compareTo(Paciente otroPaciente) {
+        return Integer.compare(this.cedula, otroPaciente.cedula);
     }
 }

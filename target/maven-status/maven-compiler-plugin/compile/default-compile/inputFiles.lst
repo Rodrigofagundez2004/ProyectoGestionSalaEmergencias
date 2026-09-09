@@ -24,11 +24,13 @@
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/SalaDeEmergencias/SystemFacade.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/SalaDeEmergencias/TipoEstudio.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/SalaDeEmergencias/TipoProcedimiento.java
+/Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ArbolBinarioBalanceado.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ArbolBinarioBusquedad.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ArbolGenerico.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/Cola.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ColaConPrioridad.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ElementoABB.java
+/Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ElementoAVL.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ListaArray.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ListaCircularDoble.java
 /Users/rodrigarcia/Developer/Algoritmos/ProyectoAlgoritmosHIto1/src/main/java/ucu/edu/aed/implementaciones/ListaDoblementeEnlazada.java
