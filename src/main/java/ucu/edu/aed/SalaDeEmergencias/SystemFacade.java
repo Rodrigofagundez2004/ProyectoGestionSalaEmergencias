@@ -1,8 +1,12 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
-import ucu.edu.aed.implementaciones.ArbolBinarioBalanceado;
-import ucu.edu.aed.implementaciones.ColaConPrioridad;
-import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.CatalogoDiagnosticos;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Codigo;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Diagnostico;
+import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInicial;
+import ucu.edu.aed.implementaciones.jerarquicas.AVL.ArbolBinarioBalanceado;
+import ucu.edu.aed.implementaciones.lineales.colas.ColaConPrioridad;
+import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 
 public class SystemFacade {
     private ArbolBinarioBalanceado<Paciente> pacientes;

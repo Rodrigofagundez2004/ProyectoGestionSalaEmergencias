@@ -1,8 +1,6 @@
 
 package ucu.edu.aed.SalaDeEmergencias;
-import ucu.edu.aed.implementaciones.ColaConPrioridad;
-
-import java.util.Comparator;
+import ucu.edu.aed.implementaciones.lineales.colas.ColaConPrioridad;
 
 public class SalaDeEspera {
     private static final int LIMITE_ESPERA_URGENCIA_BAJA = 4;

@@ -1,10 +1,10 @@
 package org.example;
 
 import junit.framework.TestCase;
-import ucu.edu.aed.SalaDeEmergencias.Capitulo;
-import ucu.edu.aed.SalaDeEmergencias.CatalogoDiagnosticos;
-import ucu.edu.aed.SalaDeEmergencias.Codigo;
-import ucu.edu.aed.SalaDeEmergencias.Grupo;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Capitulo;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.CatalogoDiagnosticos;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Codigo;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Grupo;
 
 public class CatalogoDiagnosticosTest extends TestCase {
     private CatalogoDiagnosticos catalogo;

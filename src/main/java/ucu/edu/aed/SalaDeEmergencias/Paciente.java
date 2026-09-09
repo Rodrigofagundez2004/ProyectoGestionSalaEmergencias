@@ -2,7 +2,8 @@ package ucu.edu.aed.SalaDeEmergencias;
 
 import java.util.Date;
 
-import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
+import ucu.edu.aed.SalaDeEmergencias.Registro.Procedimiento;
+import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 
 public class Paciente implements Comparable<Paciente> {
 
