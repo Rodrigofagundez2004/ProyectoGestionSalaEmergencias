@@ -1,7 +1,7 @@
 package org.example;
 
 import junit.framework.TestCase;
-import ucu.edu.aed.implementaciones.MonticuloBinario;
+import ucu.edu.aed.implementaciones.jerarquicas.monticuloBinario.MonticuloBinario;
 
 public class MonticuloBinarioTest extends TestCase {
     private MonticuloBinario<Integer> monticulo;

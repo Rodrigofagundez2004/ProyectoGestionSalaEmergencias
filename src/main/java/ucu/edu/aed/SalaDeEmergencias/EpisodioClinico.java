@@ -1,8 +1,11 @@
 
 package ucu.edu.aed.SalaDeEmergencias;
 
-import ucu.edu.aed.implementaciones.ArbolGenerico;
-import ucu.edu.aed.implementaciones.ListaDoblementeEnlazada;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Diagnostico;
+import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInicial;
+import ucu.edu.aed.SalaDeEmergencias.Registro.IRegistroClinico;
+import ucu.edu.aed.implementaciones.jerarquicas.generico.ArbolGenerico;
+import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 
 import java.util.Date;
 
