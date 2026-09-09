@@ -76,28 +76,11 @@ public class EpisodioClinico {
         return registroClinico.insertar(nodo -> nodo.getId() == idPadre, nodoAInsertar);
     }
 
-    private boolean verificarNodosCerrados(IRegistroClinico nodo) {
-        if (nodo == null) {
-            return true;
-        }
-        // Postorden: primero los hijos, después el nodo actual
-        for (IRegistroClinico hijo : nodo.getHijos()) {
-            if (!verificarNodosCerrados(hijo)) {
-                return false;
-            }
-        }
-        return nodo.isCerrado();
-    }
-
-    /**
-     * Un episodio sólo puede cerrarse cuando todo lo que se desprendió de él
-     * (todo el árbol) está cerrado.
-     */
     public boolean puedeCerrarse() {
-        if (cerrado) {
-            return false;
-        }
-        return verificarNodosCerrados(raizRegistro);
+        if (cerrado) return false;
+        boolean[] todosCerrados = {true};
+        registroClinico.postOrder(nodo -> { if (!nodo.isCerrado()) todosCerrados[0] = false; });
+        return todosCerrados[0];
     }
 
     public boolean cerrar() {
@@ -109,38 +92,19 @@ public class EpisodioClinico {
         return true;
     }
 
-    private void recolectarInsumos(IRegistroClinico nodo, ListaDoblementeEnlazada<Insumo> acumulador) {
-        if (nodo == null) {
-            return;
-        }
-        for (Insumo insumo : nodo.getInsumos()) {
-            acumulador.agregar(insumo);
-        }
-        for (IRegistroClinico hijo : nodo.getHijos()) {
-            recolectarInsumos(hijo, acumulador);
-        }
-    }
-
     /** Insumos consumidos en todo el episodio (o en cualquier subárbol, si se llama sobre un nodo). */
     public ListaDoblementeEnlazada<Insumo> obtenerInsumosTotales() {
         ListaDoblementeEnlazada<Insumo> total = new ListaDoblementeEnlazada<>();
-        recolectarInsumos(raizRegistro, total);
-        return total;
-    }
-
-    private int sumarDuraciones(IRegistroClinico nodo) {
-        if (nodo == null) {
-            return 0;
-        }
-        int total = nodo.getDuracion();
-        for (IRegistroClinico hijo : nodo.getHijos()) {
-            total += sumarDuraciones(hijo);
-        }
+        registroClinico.preOrder(nodo -> {
+            for (Insumo insumo : nodo.getInsumos()) total.agregar(insumo);
+        });
         return total;
     }
 
     public int obtenerDuracionTotal() {
-        return sumarDuraciones(raizRegistro);
+        int[] total = {0};
+        registroClinico.preOrder(nodo -> total[0] += nodo.getDuracion());
+        return total[0];
     }
 
     public String obtenerArbolComoString() {
@@ -151,19 +115,10 @@ public class EpisodioClinico {
     }
 
     private String arbolToString(IRegistroClinico nodo, int nivel) {
-        if (nodo == null) {
-            return "";
-        }
         StringBuilder sb = new StringBuilder();
-            String indent = "";
-            for (int i = 0; i < nivel; i++) {
-            indent += "  ";
-            }
-
-        sb.append(indent).append("├─ [").append(nodo.getId()).append("] ").append(nodo.getDescripcion());
-        sb.append(" [").append(nodo.isCerrado() ? "CERRADO" : "ABIERTO").append("]");
-        sb.append("\n");
-        for (IRegistroClinico hijo : nodo.getHijos()) {
+        sb.append("  ".repeat(nivel)).append("├─ [").append(nodo.getId()).append("] ")
+                .append(nodo.getDescripcion()).append(" [").append(nodo.isCerrado() ? "CERRADO" : "ABIERTO").append("]\n");
+        for (IRegistroClinico hijo : registroClinico.obtenerHijos(n -> n.getId() == nodo.getId())) {
             sb.append(arbolToString(hijo, nivel + 1));
         }
         return sb.toString();

@@ -1,4 +1,6 @@
 package ucu.edu.aed.tda.jerarquico;
+import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
+
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -154,4 +156,6 @@ public interface TDAArbolGenerico<T> {
      * Elimina todos los nodos del árbol.
      */
     void vaciar();
+
+    ListaDoblementeEnlazada<T> obtenerHijos(Predicate<T> criterio);
 }

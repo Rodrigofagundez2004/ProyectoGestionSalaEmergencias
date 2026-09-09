@@ -1,5 +1,6 @@
 package ucu.edu.aed.implementaciones.jerarquicas.generico;
 
+import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
 import ucu.edu.aed.tda.jerarquico.TDAArbolGenerico;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -144,5 +145,19 @@ public class ArbolGenerico<T> implements TDAArbolGenerico<T> {
     @Override
     public void vaciar() {
         this.raiz = null;
+    }
+
+    @Override
+    public ListaDoblementeEnlazada<T> obtenerHijos(Predicate<T> criterio) {
+        ListaDoblementeEnlazada<T> resultado = new ListaDoblementeEnlazada<>();
+        if (raiz == null || criterio == null) return resultado;
+        NodoGenerico<T> nodo = raiz.buscar(criterio);
+        if (nodo == null) return resultado;
+        NodoGenerico<T> hijo = nodo.getPrimerHijo();
+        while (hijo != null) {
+            resultado.agregar(hijo.getDato());
+            hijo = hijo.getHermanoDerecho();
+        }
+        return resultado;
     }
 }
