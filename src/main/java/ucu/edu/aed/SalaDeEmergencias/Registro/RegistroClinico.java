@@ -9,6 +9,10 @@ public abstract class RegistroClinico implements IRegistroClinico {
     protected ListaDoblementeEnlazada<IRegistroClinico> hijos;
     protected boolean cerrado;
     protected int duracion;
+    protected final int id;
+
+    private static int contador = 0;
+
 
     public RegistroClinico(String descripcion) {
         this.descripcion = descripcion;
@@ -16,6 +20,7 @@ public abstract class RegistroClinico implements IRegistroClinico {
         this.hijos = new ListaDoblementeEnlazada<>();
         this.cerrado = false;
         this.duracion = 0;
+        this.id = contador++;
     }
 
     @Override
@@ -35,4 +40,7 @@ public abstract class RegistroClinico implements IRegistroClinico {
     @Override
     public int getDuracion() { return duracion; }
     public void setDuracion(int duracion) { this.duracion = duracion; }
+    public int getId() {
+        return this.id;
+    }
 }

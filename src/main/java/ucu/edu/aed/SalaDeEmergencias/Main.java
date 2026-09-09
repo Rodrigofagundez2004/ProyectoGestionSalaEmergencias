@@ -12,10 +12,10 @@ public class Main {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         Date fechaIngreso = formato.parse("23/08/2026");
-        Paciente paciente1 = new Paciente(54278247, "Francisco", "Lopez", (byte) 16, fechaIngreso, Causa.ABSCESO, NivelPrioridad.MEDIA);
-        Paciente paciente2 = new Paciente(34562479, "Mauro", "Martinez", (byte) 47, fechaIngreso, Causa.INSUFICIENCIA_RESPIRATORIA, NivelPrioridad.BAJA);
-        Paciente paciente3 = new Paciente(54825523, "Rodrigo", "Perez", (byte) 22, fechaIngreso, Causa.APENDICITIS, NivelPrioridad.URGENTE);
-        Paciente paciente4 = new Paciente(25671821, "Natalia", "Rodriguez", (byte) 50, fechaIngreso, Causa.FRACTURA_PERONE, NivelPrioridad.ALTA);
+        Paciente paciente1 = new Paciente(54278247, "Francisco", "Lopez", (byte) 16, fechaIngreso, NivelPrioridad.MEDIA);
+        Paciente paciente2 = new Paciente(34562479, "Mauro", "Martinez", (byte) 47, fechaIngreso, NivelPrioridad.BAJA);
+        Paciente paciente3 = new Paciente(54825523, "Rodrigo", "Perez", (byte) 22, fechaIngreso, NivelPrioridad.URGENTE);
+        Paciente paciente4 = new Paciente(25671821, "Natalia", "Rodriguez", (byte) 50, fechaIngreso, NivelPrioridad.ALTA);
         facade.registrarPaciente(paciente1);
         facade.registrarPaciente(paciente2);
         facade.registrarPaciente(paciente3);
@@ -31,7 +31,7 @@ public class Main {
             System.out.println("2: BUSCAR INFORMACION DE PACIENTE");
             System.out.println("3: CONOCER PROXIMO PACIENTE PARA ATENDER");
             System.out.println("4: ATENDER PACIENTE");
-            System.out.println("5: MODIFICAR URGENCUIA DE PACIENTE");
+            System.out.println("5: MODIFICAR URGENCIA DE PACIENTE");
             System.out.println("7: Salir");
 
             int opcion = sc.nextInt();
@@ -60,16 +60,6 @@ public class Main {
                         fechaIngreso = formato.parse(fechaIngresoString);
 
 
-                        System.out.println("Ingrese la causa del paciente:");
-                        Causa[] causas = Causa.values();
-
-                        for (int i = 0; i < causas.length; i++) {
-                            System.out.println((i + 1) + ": " + causas[i]);
-                        }
-
-                        int opcionCausa = sc.nextInt();
-                        Causa causa = causas[opcionCausa - 1];
-
                         System.out.println("Ingrese la prioridad del paciente:");
                         NivelPrioridad[] prioridades = NivelPrioridad.values();
                         for (int i = 0; i < prioridades.length; i++) {
@@ -85,7 +75,6 @@ public class Main {
                                 apellido,
                                 edad,
                                 fechaIngreso,
-                                causa,
                                 prioridad
                         );
 

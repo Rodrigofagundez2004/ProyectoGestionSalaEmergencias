@@ -12,4 +12,5 @@ public interface IRegistroClinico {
     ListaDoblementeEnlazada<IRegistroClinico> getHijos();
     void agregarHijo(IRegistroClinico hijo);
     int getDuracion();
+    int getId();
 }
