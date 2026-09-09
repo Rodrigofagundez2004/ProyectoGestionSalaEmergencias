@@ -87,43 +87,6 @@ public class SystemFacade {
         return false;
     }
 
-   public String consultarSobrePaciente(int cedulaPaciente){   
-        Paciente encontrado = pacientes.buscar(otro -> Integer.compare(cedulaPaciente, otro.getCedula()));
-        if (encontrado == null) {
-            return "Paciente no encontrado";
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("===DATOS DEL PACIENTE===\n");
-        sb.append("Cédula: ").append(encontrado.getCedula()).append("\n");
-        sb.append("Nombre: ").append(encontrado.getNombre()).append("\n");
-        sb.append("Apellido: ").append(encontrado.getApellido()).append("\n");
-        sb.append("Edad: ").append(encontrado.getEdad()).append("\n");
-        sb.append("Fecha de ingreso: ").append(encontrado.getFechaIngreso()).append("\n");
-        sb.append("Prioridad: ").append(encontrado.getPrioridad()).append("\n");
-        sb.append("Tiempo en espera: ").append(encontrado.getTiempoEsperando()).append("\n");
-        sb.append("Procedimientos realizados: ");
-        ListaDoblementeEnlazada<EpisodioClinico> procedimientos = encontrado.getEpisodiosClinicos();
-
-        if (procedimientos == null || procedimientos.esVacio()) 
-        {
-            sb.append("Ninguno");
-
-        } else {
-            for (int j = 0; j < procedimientos.tamaño(); j++)
-            {
-                sb.append(procedimientos.obtener(j));
-                if (j < procedimientos.tamaño() - 1) {
-                    sb.append(", ");
-                }
-            }
-        }
-        sb.append("\n");
-        sb.append("=========================\n");
-        return sb.toString();
-        
-    }
-
     public boolean modificarUrgencia(Paciente paciente, NivelPrioridad nuevoNivel){
         if (paciente == null || nuevoNivel == null)
         {
@@ -217,6 +180,11 @@ public class SystemFacade {
         return episodio.agregarRegistro(complicacion, idPadre);
     }
 
+    public String obtenerArbolEpisodio(int cedula) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
+        return (episodio != null) ? episodio.obtenerArbolComoString() : "No hay episodio abierto para ese paciente.";
+    }
+
     private EpisodioClinico obtenerEpisodioAbierto(int cedula) {
         Paciente paciente = pacientes.buscar(otro -> Integer.compare(cedula, otro.getCedula()));
         if (paciente == null) {
@@ -230,5 +198,42 @@ public class SystemFacade {
             }
         }
         return null;
+    }
+
+    public String consultarSobrePaciente(int cedulaPaciente){
+        Paciente encontrado = pacientes.buscar(otro -> Integer.compare(cedulaPaciente, otro.getCedula()));
+        if (encontrado == null) {
+            return "Paciente no encontrado";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("===DATOS DEL PACIENTE===\n");
+        sb.append("Cédula: ").append(encontrado.getCedula()).append("\n");
+        sb.append("Nombre: ").append(encontrado.getNombre()).append("\n");
+        sb.append("Apellido: ").append(encontrado.getApellido()).append("\n");
+        sb.append("Edad: ").append(encontrado.getEdad()).append("\n");
+        sb.append("Fecha de ingreso: ").append(encontrado.getFechaIngreso()).append("\n");
+        sb.append("Prioridad: ").append(encontrado.getPrioridad()).append("\n");
+        sb.append("Tiempo en espera: ").append(encontrado.getTiempoEsperando()).append("\n");
+        sb.append("Procedimientos realizados: ");
+        ListaDoblementeEnlazada<EpisodioClinico> procedimientos = encontrado.getEpisodiosClinicos();
+
+        if (procedimientos == null || procedimientos.esVacio())
+        {
+            sb.append("Ninguno");
+
+        } else {
+            for (int j = 0; j < procedimientos.tamaño(); j++)
+            {
+                sb.append(procedimientos.obtener(j));
+                if (j < procedimientos.tamaño() - 1) {
+                    sb.append(", ");
+                }
+            }
+        }
+        sb.append("\n");
+        sb.append("=========================\n");
+        return sb.toString();
+
     }
 }
