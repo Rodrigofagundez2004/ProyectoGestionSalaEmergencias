@@ -9,8 +9,6 @@ public interface IRegistroClinico {
     void agregarInsumo(Insumo insumo);
     boolean isCerrado();
     void cerrar();
-    ListaDoblementeEnlazada<IRegistroClinico> getHijos();
-    void agregarHijo(IRegistroClinico hijo);
     int getDuracion();
     int getId();
 }
