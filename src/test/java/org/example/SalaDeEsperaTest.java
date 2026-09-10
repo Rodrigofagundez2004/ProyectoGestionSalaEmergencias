@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import junit.framework.TestCase;
-import ucu.edu.aed.SalaDeEmergencias.Causa;
 import ucu.edu.aed.SalaDeEmergencias.NivelPrioridad;
 import ucu.edu.aed.SalaDeEmergencias.Paciente;
 import ucu.edu.aed.SalaDeEmergencias.SalaDeEspera;
@@ -31,7 +30,6 @@ public class SalaDeEsperaTest extends TestCase {
             "Garcia", 
             (byte) 22, 
             fechaIngreso, 
-            Causa.ABSCESO,
             NivelPrioridad.BAJA 
         );
 
@@ -55,7 +53,6 @@ public class SalaDeEsperaTest extends TestCase {
             "Garcia", 
             (byte) 22, 
             fechaIngreso, 
-            Causa.CORTE,
             NivelPrioridad.BAJA  
         );
 
@@ -81,7 +78,6 @@ public class SalaDeEsperaTest extends TestCase {
             "Garcia", 
             (byte) 22, 
             fechaIngreso1, 
-            Causa.CORTE,
             NivelPrioridad.BAJA  
         );
         pacienteBajaPrioridad.setTiempoEsperando(LIMITE_ESPERA_URGENCIA_BAJA - 1);
@@ -93,7 +89,6 @@ public class SalaDeEsperaTest extends TestCase {
             "Martinez", 
             (byte) 6, 
             fechaIngreso2, 
-            Causa.INSUFICIENCIA_RESPIRATORIA,
             NivelPrioridad.MEDIA  
         );
         pacienteMediaPrioridad.setTiempoEsperando(1);
