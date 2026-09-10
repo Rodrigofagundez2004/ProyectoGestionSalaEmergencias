@@ -1,6 +1,5 @@
 package ucu.edu.aed.SalaDeEmergencias.Diagnosis;
 import ucu.edu.aed.implementaciones.jerarquicas.generico.ArbolGenerico;
-import ucu.edu.aed.tda.lineales.TDALista;
 
 public class CatalogoDiagnosticos {
     private NodoCatalogoRaiz raiz;
@@ -60,11 +59,21 @@ public class CatalogoDiagnosticos {
         }
     }
 
-    /*
-        Recorre el capitulo ingresado por parametro y devuelve una lista con todos los codigos del capitulo.
-    */
-    public TDALista<Codigo> obtenerCodigosDeCapitulo(String nombreCapitulo) {
-        return null;
+    public String mostrarCatalogo() {
+        StringBuilder sb = new StringBuilder();
+        arbol.preOrder(nodo -> {
+            if (nodo instanceof Codigo codigo) {
+                sb.append("      Codigo ").append(codigo.getId())
+                .append(": ").append(codigo.getNombre()).append("\n");
+            } else if (nodo instanceof Grupo) {
+                sb.append("    Grupo: ").append(nodo.getNombre()).append("\n");
+            } else if (nodo instanceof Capitulo) {
+                sb.append("  Capitulo: ").append(nodo.getNombre()).append("\n");
+            } else {
+                sb.append(nodo.getNombre()).append("\n"); // la raiz ficticia "Catalogo"
+            }
+        });
+        return sb.toString();
     }
 
     

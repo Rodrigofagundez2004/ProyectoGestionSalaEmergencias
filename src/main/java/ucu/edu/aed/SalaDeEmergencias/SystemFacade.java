@@ -1,9 +1,15 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Capitulo;
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.CatalogoDiagnosticos;
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Codigo;
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Diagnostico;
-import ucu.edu.aed.SalaDeEmergencias.Registro.*;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Grupo;
+import ucu.edu.aed.SalaDeEmergencias.Registro.Complicacion;
+import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInicial;
+import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInterna;
+import ucu.edu.aed.SalaDeEmergencias.Registro.Estudio;
+import ucu.edu.aed.SalaDeEmergencias.Registro.Procedimiento;
 import ucu.edu.aed.implementaciones.jerarquicas.AVL.ArbolBinarioBalanceado;
 import ucu.edu.aed.implementaciones.lineales.colas.ColaConPrioridad;
 import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
@@ -59,21 +65,32 @@ public class SystemFacade {
     /*
         Se pasa cedula y el íd del codigo, si está confirmado, para asignar un diagnóstico.
         Se va a buscar que episodio clinico tiene el pasiente aun sin cerrar (es decir está en curso)
-        para asignarselo a ese.
+        para asignarselo a ese. Intenta cerrar el episodio despues de asignar; si no puede
+        (porque quedan nodos abiertos), el diagnostico igual queda asignado.
     */
-    public boolean asignarDiagnostico(int cedula, String codigoId, boolean confirmado) {
+    public String asignarDiagnostico(int cedula, String codigoId, boolean confirmado) {
         EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
         if (episodio == null) {
-            return false; // no tiene episodio abierto al cual asignarle el diagnostico
+            return "No hay episodio abierto para ese paciente.";
         }
-
+ 
         Codigo codigo = catalogoDiagnosticos.buscarCodigo(codigoId);
         if (codigo == null) {
-            return false; // el codigo no existe en el catálogo institucional
+            return "El codigo no existe en el catalogo institucional.";
         }
-
+ 
         episodio.agregarDiagnostico(new Diagnostico(codigo, confirmado));
-        return true;
+ 
+        if (episodio.cerrar()) {
+            return "Diagnostico asignado. El episodio se pudo cerrar.";
+        }
+        return "Diagnostico asignado. El episodio NO se pudo cerrar:\n" + episodio.obtenerMotivosDeNoCierre();
+    }
+ 
+    public boolean cerrarNodo(int cedula, int idNodo) {
+        EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
+        if (episodio == null) return false;
+        return episodio.cerrarNodo(idNodo);
     }
 
     public boolean estaAtendido(Paciente paciente){
@@ -183,6 +200,20 @@ public class SystemFacade {
     public String obtenerArbolEpisodio(int cedula) {
         EpisodioClinico episodio = obtenerEpisodioAbierto(cedula);
         return (episodio != null) ? episodio.obtenerArbolComoString() : "No hay episodio abierto para ese paciente.";
+    }
+
+    public String verCatalogo() {
+        return catalogoDiagnosticos.mostrarCatalogo();
+    }
+
+    public boolean agregarCapituloAlCatalogo(Capitulo c) { 
+        return catalogoDiagnosticos.agregarCapitulo(c); 
+    }
+    public boolean agregarGrupoAlCatalogo(Capitulo padre, Grupo g) { 
+        return catalogoDiagnosticos.agregarGrupo(padre, g); 
+    }
+    public boolean agregarCodigoAlCatalogo(Grupo padre, Codigo c) { 
+        return catalogoDiagnosticos.agregarCodigo(padre, c); 
     }
 
     private EpisodioClinico obtenerEpisodioAbierto(int cedula) {

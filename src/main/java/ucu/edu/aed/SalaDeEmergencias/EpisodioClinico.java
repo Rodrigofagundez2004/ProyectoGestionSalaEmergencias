@@ -1,14 +1,13 @@
 
 package ucu.edu.aed.SalaDeEmergencias;
 
+import java.util.Date;
+
 import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Diagnostico;
 import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInicial;
 import ucu.edu.aed.SalaDeEmergencias.Registro.IRegistroClinico;
 import ucu.edu.aed.implementaciones.jerarquicas.generico.ArbolGenerico;
 import ucu.edu.aed.implementaciones.lineales.listas.ListaDoblementeEnlazada;
-
-import java.util.Date;
-import java.util.function.Predicate;
 
 public class EpisodioClinico {
 
@@ -75,6 +74,28 @@ public class EpisodioClinico {
     public boolean agregarRegistro(IRegistroClinico nodoAInsertar, int idPadre) {
         return registroClinico.insertar(nodo -> nodo.getId() == idPadre, nodoAInsertar);
     }
+
+    /** Lista, en texto, los nodos abiertos que impiden cerrar el episodio ahora mismo. */
+    public String obtenerMotivosDeNoCierre() {
+        StringBuilder sb = new StringBuilder();
+        registroClinico.preOrder(nodo -> {
+            if (!nodo.isCerrado()) {
+                sb.append("  - [").append(nodo.getId()).append("] ").append(nodo.getDescripcion()).append(" sigue ABIERTO\n");
+            }
+        });
+        return (sb.length() == 0) ? "Nada impide el cierre." : sb.toString();
+    }
+ 
+    /** Cierra un nodo puntual del registro clinico (no el episodio completo). */
+    public boolean cerrarNodo(int idNodo) {
+        IRegistroClinico nodo = registroClinico.buscar(n -> n.getId() == idNodo);
+        if (nodo == null) {
+            return false;
+        }
+        nodo.cerrar();
+        return true;
+    }
+
 
     public boolean puedeCerrarse() {
         if (cerrado) return false;
