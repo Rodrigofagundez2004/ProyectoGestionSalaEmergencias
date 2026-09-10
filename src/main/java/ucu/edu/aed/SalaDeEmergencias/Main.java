@@ -1,16 +1,19 @@
 package ucu.edu.aed.SalaDeEmergencias;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Capitulo;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Codigo;
+import ucu.edu.aed.SalaDeEmergencias.Diagnosis.Grupo;
 import ucu.edu.aed.SalaDeEmergencias.Registro.Complicacion;
 import ucu.edu.aed.SalaDeEmergencias.Registro.ConsultaInterna;
 import ucu.edu.aed.SalaDeEmergencias.Registro.Estudio;
 import ucu.edu.aed.SalaDeEmergencias.Registro.Procedimiento;
 import ucu.edu.aed.SalaDeEmergencias.Registro.TipoEstudio;
 import ucu.edu.aed.SalaDeEmergencias.Registro.TipoProcedimiento;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
@@ -28,6 +31,24 @@ public class Main {
         facade.registrarPaciente(paciente3);
         facade.registrarPaciente(paciente4);
 
+        Capitulo capInfecciosas = new Capitulo("Ciertas enfermedades infecciosas y parasitarias", "A00", "B99");
+        facade.agregarCapituloAlCatalogo(capInfecciosas);
+        Grupo grupoIntestinales = new Grupo("Enfermedades infecciosas intestinales", "A00", "A09");
+        facade.agregarGrupoAlCatalogo(capInfecciosas, grupoIntestinales);
+        facade.agregarCodigoAlCatalogo(grupoIntestinales, new Codigo("Fiebres tifoidea y paratifoidea", "A01"));
+        facade.agregarCodigoAlCatalogo(grupoIntestinales, new Codigo("Diarrea y gastroenteritis de presunto origen infeccioso", "A09"));
+        Grupo grupoHepatitis = new Grupo("Hepatitis viral", "B15", "B19");
+        facade.agregarGrupoAlCatalogo(capInfecciosas, grupoHepatitis);
+        facade.agregarCodigoAlCatalogo(grupoHepatitis, new Codigo("Hepatitis aguda A", "B15"));
+        facade.agregarCodigoAlCatalogo(grupoHepatitis, new Codigo("Hepatitis aguda B", "B16"));
+
+        Capitulo capCirculatorio = new Capitulo("Enfermedades del sistema circulatorio", "I00", "I99");
+        facade.agregarCapituloAlCatalogo(capCirculatorio);
+        Grupo grupoHipertensivas = new Grupo("Enfermedades hipertensivas", "I10", "I15");
+        facade.agregarGrupoAlCatalogo(capCirculatorio, grupoHipertensivas);
+        facade.agregarCodigoAlCatalogo(grupoHipertensivas, new Codigo("Hipertensión esencial (primaria)", "I10"));
+        facade.agregarCodigoAlCatalogo(grupoHipertensivas, new Codigo("Enfermedad cardíaca hipertensiva", "I11"));
+
         Scanner sc = new Scanner(System.in);
         boolean salir = false;
 
@@ -44,7 +65,9 @@ public class Main {
             System.out.println("9: AGREGAR PROCEDIMIENTO");
             System.out.println("10: AGREGAR COMPLICACION");
             System.out.println("11: ASIGNAR DIAGNOSTICO (por codigo del catalogo)");
-            System.out.println("12: Salir");
+            System.out.println("12: VER CATALOGO DE DIAGNOSTICOS");
+            System.out.println("13: CERRAR UN NODO DEL EPISODIO");
+            System.out.println("14: Salir");
 
             int opcion = sc.nextInt();
 
@@ -206,12 +229,27 @@ public class Main {
                     String codigoId = sc.next();
                     System.out.println("¿Confirmado? (true/false):");
                     boolean confirmado = sc.nextBoolean();
-                    boolean ok = facade.asignarDiagnostico(cedDiag, codigoId, confirmado);
-                    System.out.println(ok ? "Diagnostico asignado." : "Error: paciente, episodio o codigo invalido.");
+                    String resultado = facade.asignarDiagnostico(cedDiag, codigoId, confirmado);
+                    System.out.println(resultado);
                     break;
                 }
 
                 case 12:
+                    System.out.println(facade.verCatalogo());
+                    break;
+
+                case 13: {
+                    System.out.println("Ingrese la cedula del paciente:");
+                    int ced = sc.nextInt();
+                    System.out.println(facade.obtenerArbolEpisodio(ced));
+                    System.out.println("Ingrese el id del nodo a cerrar:");
+                    int idNodo = sc.nextInt();
+                    boolean ok = facade.cerrarNodo(ced, idNodo);
+                    System.out.println(ok ? "Nodo cerrado." : "Error: paciente, episodio o id de nodo invalido.");
+                    break;
+                }
+
+                case 14:
                     salir = true;
                     break;
 
